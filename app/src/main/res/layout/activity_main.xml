@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="ru.kekulta.goodjobray.main.InitialFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+    <LinearLayout
+        android:background="@drawable/selector_controlbar"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/homeBt"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/home_icon" />
+
+        <ImageView
+            android:id="@+id/plannerBt"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/calendar_icon" />
+        <ImageView
+            android:id="@+id/addBt"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/circle_add_icon" />
+
+        <ImageView
+            android:id="@+id/notesBt"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/note_icon" />
+
+        <ImageView
+            android:id="@+id/timerBt"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/timer_icon" />
+    </LinearLayout>
+
+</LinearLayout>

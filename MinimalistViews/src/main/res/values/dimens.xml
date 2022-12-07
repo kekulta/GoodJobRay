@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="corner_radius">16dp</dimen>
+    <dimen name="small_text">16dp</dimen>
+    <dimen name="large_text">20dp</dimen>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ru.kekulta.simpleviews.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dateCv"
+    android:layout_width="50dp"
+    android:layout_height="75dp"
+    app:color_end="@color/light_orange"
+    app:color_start="@color/light_violet"
+    app:text_size="4"
+    app:corner_radius="16dp" />
