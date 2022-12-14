@@ -23,7 +23,7 @@ This simple to-do manager with some helpful built-in, it's not finished yet but 
   - **Habits Screen**
      -
      - Actually, just a placeholder :(
-     - Custom view AchieveBar completed and fully functional but I didn't implement classes to store it state.
+     - Custom view AchieveBar completed and fully functional but I didn't implement classes to store its state.
      - Will be added soon!
 ## What we will have soon: 
   - Fixes.
