@@ -42,6 +42,6 @@ This simple to-do manager with some helpful built-in, it's not finished yet but 
     - Implement users before it.
   - Improving architecture and performance.
     -
-    - This mostly educational project so it really far from perfect. But I'm constantly learning and refactor A LOT.
+    - This mostly educational project so it is really far from perfect. But I'm constantly learning and refactor A LOT.
 
 
