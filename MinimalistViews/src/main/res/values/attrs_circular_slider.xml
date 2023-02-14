@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CircularSlider">
-        <attr name="under_width" />
-        <attr name="under_color" />
-        <attr name="indicator_width" />
-        <attr name="indicator_color" />
-        <attr name="cap_radius" format="dimension" />
-        <attr name="cap_color" format="color" />
+        <attr name="underWidth" />
+        <attr name="underColor" />
+        <attr name="indicatorWidth" />
+        <attr name="indicatorColor" />
+        <attr name="capRadius" format="dimension" />
+        <attr name="capColor" format="color" />
     </declare-styleable>
 </resources>

@@ -7,7 +7,7 @@ import ru.kekulta.goodjobray.di.DI
 import ru.kekulta.goodjobray.activity.data.Note
 import kotlin.random.Random
 
-class NotesViewModel() : ViewModel() {
+class NotesViewModel : ViewModel() {
     private val noteRepository = DI.getNoteRepository()
 
     private val _pinnedNotes =

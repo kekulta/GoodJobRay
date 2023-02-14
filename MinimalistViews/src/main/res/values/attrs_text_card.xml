@@ -2,6 +2,6 @@
 <resources>
     <declare-styleable name="TextCard">
         <attr name="title" />
-        <attr name="background_color" format="color" />
+        <attr name="backgroundColor" format="color" />
     </declare-styleable>
 </resources>

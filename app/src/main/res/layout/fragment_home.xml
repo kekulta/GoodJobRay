@@ -40,10 +40,10 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                app:color_end="@color/light_green"
-                app:corner_radius="16dp"
-                app:first_underlined_index="5"
-                app:is_underlined="true" />
+                app:colorEnd="@color/light_green"
+                app:cornerRadius="16dp"
+                app:firstUnderlinedIndex="5"
+                app:isUnderlined="true" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -55,21 +55,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_margin="20dp"
-                    app:auto_ratio="true"
-                    app:color_start="@color/light_orange"
-                    app:color_end="@color/light_violet_semitransparent"
-                    app:corner_radius="@dimen/corner_radius"
-                    app:gradient_end_x="0.5"
-                    app:gradient_end_y="1"
-                    app:gradient_start_x="0.5"
-                    app:gradient_start_y="0"
-                    app:icon_to_right="true"
+                    app:autoRatio="true"
+                    app:colorStart="@color/light_orange"
+                    app:colorEnd="@color/light_violet_semitransparent"
+                    app:cornerRadius="@dimen/corner_radius"
+                    app:gradientEndX="0.5"
+                    app:gradientEndY="1"
+                    app:gradientStartX="0.5"
+                    app:gradientStartY="0"
+                    app:iconToRight="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-
                     app:layout_constraintTop_toTopOf="parent"
-                    app:text_size="7"
-                    app:top_text="Progress" />
+                    app:textSize="7"
+                    app:topText="Progress" />
 
                 <ru.kekulta.simpleviews.widget.CircularBar
                     android:id="@+id/progressCb"
@@ -77,16 +76,15 @@
                     android:layout_height="0dp"
                     android:layout_centerInParent="true"
                     android:layout_margin="24dp"
-                    app:icon_to_right="true"
-                    app:indicator_color="@color/dark_blue"
+                    app:iconToRight="true"
+                    app:indicatorColor="@color/dark_blue"
                     app:layout_constraintBottom_toBottomOf="@id/progressPc"
                     app:layout_constraintDimensionRatio="W,1:1"
                     app:layout_constraintEnd_toEndOf="@id/progressPc"
                     app:layout_constraintStart_toStartOf="@id/progressPc"
                     app:layout_constraintTop_toTopOf="@id/progressPc"
                     app:progress="0"
-
-                    app:under_color="@color/white" />
+                    app:underColor="@color/white" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
@@ -101,12 +99,12 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
-                    app:bottom_text="Habits tracker"
-                    app:color_end="@color/dirt_yellow"
-                    app:corner_radius="@dimen/corner_radius"
+                    app:bottomText="Habits tracker"
+                    app:colorEnd="@color/dirt_yellow"
+                    app:cornerRadius="@dimen/corner_radius"
                     app:icon="@drawable/leaf_svgrepo_com"
-                    app:square_borders="true"
-                    app:text_size="8" />
+                    app:squareBorders="true"
+                    app:textSize="8" />
 
                 <ru.kekulta.simpleviews.widget.CardView
                     android:id="@+id/goalsCv"
@@ -115,12 +113,12 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="20dp"
                     android:layout_weight="1"
-                    app:bottom_text="My goals"
-                    app:color_end="@color/dark_blue"
-                    app:corner_radius="@dimen/corner_radius"
+                    app:bottomText="My goals"
+                    app:colorEnd="@color/dark_blue"
+                    app:cornerRadius="@dimen/corner_radius"
                     app:icon="@drawable/bookmark_svgrepo_com"
-                    app:square_borders="true"
-                    app:text_size="8" />
+                    app:squareBorders="true"
+                    app:textSize="8" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

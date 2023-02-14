@@ -2,8 +2,6 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -23,6 +21,7 @@
 
         <ImageView
             android:id="@+id/homeBt"
+            android:contentDescription="@string/home_button_description"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
@@ -33,6 +32,7 @@
         <ImageView
             android:id="@+id/plannerBt"
             android:layout_width="0dp"
+            android:contentDescription="@string/planner_button_description"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
@@ -41,6 +41,7 @@
         <ImageView
             android:id="@+id/addBt"
             android:layout_width="0dp"
+            android:contentDescription="@string/add_button_description"
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:layout_weight="1"
@@ -50,6 +51,7 @@
         <ImageView
             android:id="@+id/notesBt"
             android:layout_width="0dp"
+            android:contentDescription="@string/notes_button_description"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
@@ -59,6 +61,7 @@
         <ImageView
             android:id="@+id/timerBt"
             android:layout_width="0dp"
+            android:contentDescription="@string/timer_button_description"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:layout_weight="1"

@@ -71,23 +71,23 @@ class CardView @JvmOverloads constructor(
 
     init {
         context.withStyledAttributes(attrs, R.styleable.CardView) {
-            rightIcon = getBoolean(R.styleable.CardView_icon_to_right, false)
-            startColor = getColor(R.styleable.CardView_color_start, Color.WHITE)
-            endColor = getColor(R.styleable.CardView_color_end, Color.BLACK)
-            isSquare = getBoolean(R.styleable.CardView_square_borders, false)
-            autoRatio = getBoolean(R.styleable.CardView_auto_ratio, false)
+            rightIcon = getBoolean(R.styleable.CardView_iconToRight, false)
+            startColor = getColor(R.styleable.CardView_colorStart, Color.WHITE)
+            endColor = getColor(R.styleable.CardView_colorEnd, Color.BLACK)
+            isSquare = getBoolean(R.styleable.CardView_squareBorders, false)
+            autoRatio = getBoolean(R.styleable.CardView_autoRatio, false)
             ratio = getFloat(R.styleable.CardView_ratio, RATIO)
-            gradientStartX = getFloat(R.styleable.CardView_gradient_start_x, 0f)
-            gradientStartY = getFloat(R.styleable.CardView_gradient_start_y, 1f)
-            gradientEndY = getFloat(R.styleable.CardView_gradient_end_y, 0f)
-            gradientEndX = getFloat(R.styleable.CardView_gradient_end_x, 1f)
-            cornerRadius = getDimension(R.styleable.CardView_corner_radius, -1f)
-            topText = getString(R.styleable.CardView_top_text) ?: topText
-            bottomText = getString(R.styleable.CardView_bottom_text) ?: bottomText
-            textSize = getFloat(R.styleable.CardView_text_size, 7f)
+            gradientStartX = getFloat(R.styleable.CardView_gradientStartX, 0f)
+            gradientStartY = getFloat(R.styleable.CardView_gradientStartY, 1f)
+            gradientEndY = getFloat(R.styleable.CardView_gradientEndY, 0f)
+            gradientEndX = getFloat(R.styleable.CardView_gradientEndX, 1f)
+            cornerRadius = getDimension(R.styleable.CardView_cornerRadius, -1f)
+            topText = getString(R.styleable.CardView_topText) ?: topText
+            bottomText = getString(R.styleable.CardView_bottomText) ?: bottomText
+            textSize = getFloat(R.styleable.CardView_textSize, 7f)
             drawable = getDrawable(R.styleable.CardView_icon)
             iconRatio = getFloat(R.styleable.CardView_iconRatio, iconRatio)
-            centerText = getString(R.styleable.CardView_center_text) ?: centerText
+            centerText = getString(R.styleable.CardView_centerText) ?: centerText
         }
     }
 

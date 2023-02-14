@@ -30,7 +30,7 @@
                 android:fontFamily="@font/nunitobold"
                 android:text="PinnedNotes"
                 android:textColor="@color/black"
-                android:textSize="24dp" />
+                android:textSize="24sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/pinnedNotesRv"
@@ -47,7 +47,7 @@
                 android:fontFamily="@font/nunitobold"
                 android:text="Other"
                 android:textColor="@color/black"
-                android:textSize="24dp" />
+                android:textSize="24sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/otherNotesRv"

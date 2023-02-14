@@ -2,13 +2,13 @@
 <resources>
     <!-- TODO Разобраться, почему нельзя тут указать dimension -->
     <declare-styleable name="ProfileView">
-        <attr name="corner_radius"/>
-        <attr name="color_start" />
-        <attr name="color_end" />
+        <attr name="cornerRadius"/>
+        <attr name="colorStart" />
+        <attr name="colorEnd" />
         <attr name="text" format="string" />
         <attr name="image" format="reference" />
-        <attr name="is_underlined" format="boolean" />
-        <attr name="first_underlined_index" format="integer" />
-        <attr name="last_underlined_index" format="integer" />
+        <attr name="isUnderlined" format="boolean" />
+        <attr name="firstUnderlinedIndex" format="integer" />
+        <attr name="lastUnderlinedIndex" format="integer" />
     </declare-styleable>
 </resources>

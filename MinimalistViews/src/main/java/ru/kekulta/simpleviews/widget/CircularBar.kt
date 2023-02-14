@@ -43,10 +43,10 @@ class CircularBar @JvmOverloads constructor(
 
     init {
         context.withStyledAttributes(attrs, R.styleable.CircularBar) {
-            underColor = getColor(R.styleable.CircularBar_under_color, Color.GRAY)
-            underStrokeWidth = getDimension(R.styleable.CircularBar_under_width, -1f)
-            indicatorColor = getColor(R.styleable.CircularBar_indicator_color, Color.BLACK)
-            indicatorWidth = getDimension(R.styleable.CircularBar_indicator_width, underStrokeWidth)
+            underColor = getColor(R.styleable.CircularBar_underColor, Color.GRAY)
+            underStrokeWidth = getDimension(R.styleable.CircularBar_underWidth, -1f)
+            indicatorColor = getColor(R.styleable.CircularBar_indicatorColor, Color.BLACK)
+            indicatorWidth = getDimension(R.styleable.CircularBar_indicatorWidth, underStrokeWidth)
             progress = getFloat(R.styleable.CircularBar_progress, 0f)
         }
     }

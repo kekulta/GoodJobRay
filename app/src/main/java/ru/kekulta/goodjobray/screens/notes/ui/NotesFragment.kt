@@ -111,7 +111,7 @@ class NotesFragment : Fragment() {
     }
 
 
-    inner class OnClickListener() : NoteRecyclerClickListener {
+    inner class OnClickListener : NoteRecyclerClickListener {
         override fun onClick(index: Int, note: Note) {
             println("note: $note clicked")
             viewModel.changePin(note)

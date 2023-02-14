@@ -16,7 +16,7 @@ import java.io.FileNotFoundException
 import kotlin.concurrent.thread
 
 
-class HomeViewModel() : ViewModel() {
+class HomeViewModel : ViewModel() {
 
 
 
@@ -40,7 +40,7 @@ class HomeViewModel() : ViewModel() {
     val tasks: LiveData<Int> get() = _tasks
     val name: LiveData<String> get() = userRepository.name
 
-    private val _progression = MutableLiveData<Int>(71)
+    private val _progression = MutableLiveData(71)
     val progression: LiveData<Int>
         get() = _progression
 

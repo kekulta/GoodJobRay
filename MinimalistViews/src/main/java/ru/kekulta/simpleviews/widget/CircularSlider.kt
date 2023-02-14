@@ -66,13 +66,12 @@ class CircularSlider @JvmOverloads constructor(
 
     init {
         context.withStyledAttributes(attrs, R.styleable.CircularSlider) {
-            indicatorWidth = getDimension(R.styleable.CircularSlider_indicator_width, -1f)
-            underWidth = getDimension(R.styleable.CircularSlider_under_width, -1f)
-            capDiameter = getDimension(R.styleable.CircularSlider_cap_radius, -1f)
-            indicatorColor = getColor(R.styleable.CircularSlider_indicator_color, Color.BLUE)
-
-            underColor = getColor(R.styleable.CircularSlider_under_color, Color.WHITE)
-            capColor = getColor(R.styleable.CircularSlider_cap_color, Color.MAGENTA)
+            indicatorWidth = getDimension(R.styleable.CircularSlider_indicatorWidth, -1f)
+            underWidth = getDimension(R.styleable.CircularSlider_underWidth, -1f)
+            capDiameter = getDimension(R.styleable.CircularSlider_capRadius, -1f)
+            indicatorColor = getColor(R.styleable.CircularSlider_indicatorColor, Color.BLUE)
+            underColor = getColor(R.styleable.CircularSlider_underColor, Color.WHITE)
+            capColor = getColor(R.styleable.CircularSlider_capColor, Color.MAGENTA)
 
         }
     }

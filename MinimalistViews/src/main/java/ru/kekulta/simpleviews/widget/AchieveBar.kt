@@ -60,12 +60,12 @@ class AchieveBar @JvmOverloads constructor(
 
     init {
         context.withStyledAttributes(attrs, R.styleable.AchieveBar) {
-            cornerRadius = getDimension(R.styleable.AchieveBar_corner_radius, -1f)
-            strokeColor = getColor(R.styleable.AchieveBar_stroke_color, Color.GRAY)
-            strokeWidth = getDimension(R.styleable.AchieveBar_stroke_width, -1f)
-            startColor = getColor(R.styleable.AchieveBar_color_start, Color.WHITE)
-            endColor = getColor(R.styleable.AchieveBar_color_end, Color.BLACK)
-            stageColor = getColor(R.styleable.AchieveBar_stage_color, Color.GRAY)
+            cornerRadius = getDimension(R.styleable.AchieveBar_cornerRadius, -1f)
+            strokeColor = getColor(R.styleable.AchieveBar_strokeColor, Color.GRAY)
+            strokeWidth = getDimension(R.styleable.AchieveBar_strokeWidth, -1f)
+            startColor = getColor(R.styleable.AchieveBar_colorStart, Color.WHITE)
+            endColor = getColor(R.styleable.AchieveBar_colorEnd, Color.BLACK)
+            stageColor = getColor(R.styleable.AchieveBar_stageColor, Color.GRAY)
             position = getInteger(R.styleable.AchieveBar_position, 0)
         }
     }

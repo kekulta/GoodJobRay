@@ -88,15 +88,15 @@ class ProfileView @JvmOverloads constructor(
 
     init {
         context.withStyledAttributes(attrs, R.styleable.ProfileView) {
-            startColor = getColor(R.styleable.ProfileView_color_start, Color.WHITE)
-            endColor = getColor(R.styleable.ProfileView_color_end, Color.BLACK)
+            startColor = getColor(R.styleable.ProfileView_colorStart, Color.WHITE)
+            endColor = getColor(R.styleable.ProfileView_colorEnd, Color.BLACK)
             text = getString(R.styleable.ProfileView_text) ?: text
             drawable = getDrawable(R.styleable.ProfileView_image) ?: drawable
-            firstUnderlineIndex = getInteger(R.styleable.ProfileView_first_underlined_index, 0)
+            firstUnderlineIndex = getInteger(R.styleable.ProfileView_firstUnderlinedIndex, 0)
             lastUnderlineIndex =
-                getInteger(R.styleable.ProfileView_last_underlined_index, text.lastIndex)
-            isUnderlined = getBoolean(R.styleable.ProfileView_is_underlined, false)
-            cornerRadius = getDimension(R.styleable.ProfileView_corner_radius, -1f)
+                getInteger(R.styleable.ProfileView_lastUnderlinedIndex, text.lastIndex)
+            isUnderlined = getBoolean(R.styleable.ProfileView_isUnderlined, false)
+            cornerRadius = getDimension(R.styleable.ProfileView_cornerRadius, -1f)
         }
     }
 

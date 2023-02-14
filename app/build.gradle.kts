@@ -11,12 +11,11 @@ android {
         viewBinding = true
     }
     defaultConfig {
-        applicationId = "ru.russkikh.goodjobray"
+        applicationId = "ru.kekulta.goodjobray"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -41,15 +40,11 @@ android {
     namespace = "ru.kekulta.goodjobray"
 }
 
-// --> Version catalog
-
 dependencies {
-    kapt(libs.room.compiler)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.legacy)
     implementation(libs.bundles.lifecycle)
-    implementation(project(":MinimalistViews"))
     implementation(libs.bundles.room)
     implementation(libs.fragment.ktx)
     implementation(libs.coroutines.android)
@@ -57,6 +52,8 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.layout.constraint)
+    implementation(project(":MinimalistViews"))
+    kapt(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.android.test)
 }

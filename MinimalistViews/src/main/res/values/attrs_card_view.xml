@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CardView">
-        <attr name="icon_to_right" format="boolean" />
+        <attr name="iconToRight" format="boolean" />
         <attr name="iconRatio" format="float" />
-        <attr name="center_text" format="string" />
+        <attr name="centerText" format="string" />
         <attr name="icon" format="reference" />
-        <attr name="text_size" format="float" />
-        <attr name="top_text" format="string" />
-        <attr name="bottom_text" format="string" />
-        <attr name="corner_radius" format="dimension" />
-        <attr name="color_start" format="color" />
-        <attr name="color_end" format="color" />
-        <attr name="square_borders" format="boolean" />
-        <attr name="auto_ratio" format="boolean" />
+        <attr name="textSize" format="float" />
+        <attr name="topText" format="string" />
+        <attr name="bottomText" format="string" />
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="colorStart" format="color" />
+        <attr name="colorEnd" format="color" />
+        <attr name="squareBorders" format="boolean" />
+        <attr name="autoRatio" format="boolean" />
         <attr name="ratio" format="float" />
-        <attr name="gradient_start_x" format="float" />
-        <attr name="gradient_start_y" format="float" />
-        <attr name="gradient_end_x" format="float" />
-        <attr name="gradient_end_y" format="float" />
+        <attr name="gradientStartX" format="float" />
+        <attr name="gradientStartY" format="float" />
+        <attr name="gradientEndX" format="float" />
+        <attr name="gradientEndY" format="float" />
     </declare-styleable>
 </resources>

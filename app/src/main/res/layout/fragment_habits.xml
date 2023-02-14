@@ -29,18 +29,18 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="40dp"
-                app:center_text="Create new habit"
-                app:color_end="@color/dirt_yellow_semitransparent"
-                app:color_start="@color/dirt_yellow"
-                app:corner_radius="@dimen/corner_radius"
-                app:gradient_end_x="0.5"
-                app:gradient_end_y="1"
-                app:gradient_start_x="0.5"
-                app:gradient_start_y="0"
+                app:centerText="Create new habit"
+                app:colorEnd="@color/dirt_yellow_semitransparent"
+                app:colorStart="@color/dirt_yellow"
+                app:cornerRadius="@dimen/corner_radius"
+                app:gradientEndX="0.5"
+                app:gradientEndY="1"
+                app:gradientStartX="0.5"
+                app:gradientStartY="0"
                 app:icon="@drawable/pencil_icon"
                 app:iconRatio="0.4"
-                app:icon_to_right="true"
-                app:text_size="3.5" />
+                app:iconToRight="true"
+                app:textSize="3.5" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -57,40 +57,40 @@
                 android:layout_height="140dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                app:color_end="@color/light_blue_semitransparent"
-                app:corner_radius="@dimen/corner_radius"
+                app:colorEnd="@color/light_blue_semitransparent"
+                app:cornerRadius="@dimen/corner_radius"
                 app:position="7"
-                app:stage_color="@color/light_blue" />
+                app:stageColor="@color/light_blue" />
 
             <ru.kekulta.simpleviews.widget.AchieveBar
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                app:color_end="@color/light_blue_semitransparent"
-                app:corner_radius="@dimen/corner_radius"
+                app:colorEnd="@color/light_blue_semitransparent"
+                app:cornerRadius="@dimen/corner_radius"
                 app:position="7"
-                app:stage_color="@color/light_blue" />
+                app:stageColor="@color/light_blue" />
 
             <ru.kekulta.simpleviews.widget.AchieveBar
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                app:color_end="@color/light_blue_semitransparent"
-                app:corner_radius="@dimen/corner_radius"
+                app:colorEnd="@color/light_blue_semitransparent"
+                app:cornerRadius="@dimen/corner_radius"
                 app:position="7"
-                app:stage_color="@color/light_blue" />
+                app:stageColor="@color/light_blue" />
 
             <ru.kekulta.simpleviews.widget.AchieveBar
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                app:color_end="@color/light_blue_semitransparent"
-                app:corner_radius="@dimen/corner_radius"
+                app:colorEnd="@color/light_blue_semitransparent"
+                app:cornerRadius="@dimen/corner_radius"
                 app:position="7"
-                app:stage_color="@color/light_blue" />
+                app:stageColor="@color/light_blue" />
 
         </LinearLayout>
     </ScrollView>

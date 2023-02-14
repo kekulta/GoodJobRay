@@ -7,7 +7,7 @@ import ru.kekulta.goodjobray.di.DI
 import ru.kekulta.goodjobray.activity.data.Task
 import ru.kekulta.goodjobray.utils.Day
 
-class PlannerViewModel() : ViewModel() {
+class PlannerViewModel : ViewModel() {
 
 
     //private val model = PlannerModel(app)

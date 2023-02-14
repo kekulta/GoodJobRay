@@ -20,7 +20,7 @@ data class Day(val dayOfMonth: Int, val monthNum: Int, val dayOfWeek: Int, val y
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.DAY_OF_MONTH, 1)
             val daysIn = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-            val daysList = List<Day>(daysIn) {
+            val daysList = List(daysIn) {
                 calendar.set(Calendar.DAY_OF_MONTH, it + 1)
                 Day(it + 1, month, calendar.get(Calendar.DAY_OF_WEEK), year)
             }

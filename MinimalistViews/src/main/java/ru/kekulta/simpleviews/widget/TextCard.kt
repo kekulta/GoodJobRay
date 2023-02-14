@@ -42,7 +42,7 @@ class TextCard @JvmOverloads constructor(
     init {
         context.withStyledAttributes(attrs, R.styleable.TextCard) {
             title = getString(R.styleable.TextCard_title) ?: ""
-            color = getColor(R.styleable.TextCard_background_color, Color.GRAY)
+            color = getColor(R.styleable.TextCard_backgroundColor, Color.GRAY)
         }
 
 
@@ -137,7 +137,7 @@ class TextCard @JvmOverloads constructor(
                 )
                     .setAlignment(Layout.Alignment.ALIGN_NORMAL)
                     .setLineSpacing(0f, 1f)
-                    .setIncludePad(false);
+                    .setIncludePad(false)
 
                 titleLayout = layoutTitleBuilder.build()
 

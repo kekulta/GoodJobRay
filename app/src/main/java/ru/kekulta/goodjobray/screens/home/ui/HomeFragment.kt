@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
             println("Click on Pv received")
         }
 
-        binding.profilePv.setOnLongClickListener() {
+        binding.profilePv.setOnLongClickListener {
             println("Click on picture received")
             viewModel.pickPhoto()
             true
