@@ -49,12 +49,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    override fun onStop() {
-        super.onStop()
-        println("onStop")
-        saveAllChanges()
-    }
-
     private fun initNavigationBar() {
         _navigator = DI.getNavigator()
 
@@ -89,11 +83,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    private fun saveAllChanges() {
-        DI.getTaskRepository().saveTaskChanges()
-        DI.getUserRepository().saveUser()
-        DI.getNoteRepository().saveNotes()
-    }
 
 
 }

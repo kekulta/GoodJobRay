@@ -15,7 +15,7 @@ class NotesViewModel() : ViewModel() {
     val pinnedNotes get(): LiveData<List<Note>> = _pinnedNotes
 
     private val _notes =
-        MutableLiveData(noteRepository.otherNotes.sortedByDescending { it.time })
+        MutableLiveData(noteRepository.notes.sortedByDescending { it.time })
     val notes get(): LiveData<List<Note>> = _notes
 
     init {
@@ -35,7 +35,7 @@ class NotesViewModel() : ViewModel() {
     private fun updateNotes() {
         println("notes updated")
         _pinnedNotes.value = noteRepository.pinnedNotes.sortedByDescending { it.time }
-        _notes.value = noteRepository.otherNotes.sortedByDescending { it.time }
+        _notes.value = noteRepository.notes.sortedByDescending { it.time }
     }
 
     fun deleteNote(note: Note) {

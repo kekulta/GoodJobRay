@@ -90,7 +90,7 @@ interface NoteDao {
     fun getPinnedNotesLiveData(): LiveData<List<Note>>
 
     @Query("select * from Note where pinned = 0")
-    fun getNotPinnedNotes(): List<Note>
+    fun getNotes(): List<Note>
 
     @Query("select * from Note where pinned = 1")
     fun getPinnedNotes(): List<Note>

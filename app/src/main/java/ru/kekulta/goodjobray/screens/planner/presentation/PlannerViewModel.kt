@@ -30,7 +30,7 @@ class PlannerViewModel() : ViewModel() {
         get() = _currentYear
 
     private val _tasks =
-        MutableLiveData(taskRepository.getTasksFor(Day.actualDay, Day.actualMonth, Day.actualYear))
+        MutableLiveData(taskRepository.getTasksForDay(Day.actualDay, Day.actualMonth, Day.actualYear))
     val tasks: LiveData<List<Task>>
         get() = _tasks
 
@@ -50,7 +50,7 @@ class PlannerViewModel() : ViewModel() {
     }
 
     private fun updateTasks() {
-        _tasks.value = taskRepository.getTasksFor(
+        _tasks.value = taskRepository.getTasksForDay(
             currentDay.value ?: Day.actualDay,
             currentMonth.value ?: Day.actualMonth,
             currentYear.value ?: Day.actualYear
@@ -66,7 +66,7 @@ class PlannerViewModel() : ViewModel() {
         _currentDay.value = day
         _currentMonth.value = month
         _currentYear.value = year
-        _tasks.value = taskRepository.getTasksFor(day, month, year)
+        _tasks.value = taskRepository.getTasksForDay(day, month, year)
     }
 
     fun nextMonth() {
@@ -83,7 +83,7 @@ class PlannerViewModel() : ViewModel() {
         _currentMonth.value = nextMonth
         _currentDay.value = nextDay
         _days.value = nextDays
-        _tasks.value = taskRepository.getTasksFor(nextDay, nextMonth, nextYear)
+        _tasks.value = taskRepository.getTasksForDay(nextDay, nextMonth, nextYear)
 
     }
 
@@ -119,7 +119,7 @@ class PlannerViewModel() : ViewModel() {
         _currentMonth.value = previousMonth
         _currentDay.value = previousDay
         _days.value = previousDays
-        _tasks.value = taskRepository.getTasksFor(previousDay, previousMonth, previousYear)
+        _tasks.value = taskRepository.getTasksForDay(previousDay, previousMonth, previousYear)
     }
 
 }

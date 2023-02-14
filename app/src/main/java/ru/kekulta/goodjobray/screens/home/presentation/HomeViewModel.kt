@@ -29,7 +29,7 @@ class HomeViewModel() : ViewModel() {
     private val taskRepository = DI.getTaskRepository()
 
     private val _tasks = MutableLiveData(
-        taskRepository.getTasksFor(
+        taskRepository.getTasksForDay(
             Day.actualDay,
             Day.actualMonth,
             Day.actualYear
@@ -67,7 +67,7 @@ class HomeViewModel() : ViewModel() {
     }
 
     private fun updateTasks() {
-        _tasks.value = taskRepository.getTasksFor(
+        _tasks.value = taskRepository.getTasksForDay(
             Day.actualDay,
             Day.actualMonth,
             Day.actualYear

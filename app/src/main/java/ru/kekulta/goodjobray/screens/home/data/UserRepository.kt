@@ -37,13 +37,15 @@ class UserRepository(private val dao: UserDao) {
 
     fun setName(name: String) {
         _name.value = name
+        saveUser()
     }
 
     fun setPhoto(uri: String) {
         _photo = uri
+        saveUser()
     }
 
-    fun saveUser() {
+    private fun saveUser() {
         println("Request for save user: $user")
         user?.let {
             dao.insert(it)
