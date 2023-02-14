@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".screens.HabitsFragment.HabitsFragment">
+    tools:context=".screens.habits.ui.HabitsFragment">
 
     <include
         android:id="@+id/toolbar"

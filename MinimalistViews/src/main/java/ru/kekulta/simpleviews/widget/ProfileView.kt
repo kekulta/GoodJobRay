@@ -16,7 +16,9 @@ import ru.kekulta.simpleviews.R
 private const val RATIO = 150.0 / 260.0
 
 class ProfileView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttribute: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttribute: Int = 0,
 ) : View(context, attrs, defStyleAttribute) {
 
     private var imageRadius: Float = 0f

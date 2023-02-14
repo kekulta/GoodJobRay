@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="ru.kekulta.goodjobray">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".di.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,7 +14,7 @@
         android:theme="@style/Theme.GoodJobRay"
         tools:targetApi="31">
         <activity
-            android:name="ru.kekulta.goodjobray.main.MainActivity"
+            android:name="ru.kekulta.goodjobray.activity.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

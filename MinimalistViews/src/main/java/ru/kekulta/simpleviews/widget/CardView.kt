@@ -21,55 +21,33 @@ class CardView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     var startColor: Int = 0
-
     var endColor: Int = 0
-
+    var gradientStartX = 0f
+    var gradientEndX = 0f
+    var gradientStartY = 0f
+    var gradientEndY = 0f
+    var cornerRadius = 0f
+    var absoluteTextSize = -1f
+    var bottomText = ""
+    var centerText = ""
+    var topText = ""
+    private var textSize = 7f
     private var isSquare = false
     private var autoRatio = false
     private var ratio = 0f
-
-    var gradientStartX = 0f
-
-
-    var gradientEndX = 0f
-
-
-    var gradientStartY = 0f
-
-    var gradientEndY = 0f
-
-    var cornerRadius = 0f
-
-    var absoluteTextSize = -1f
-
-    private var textSize = 7f
-
-    var bottomText = ""
-
-    var centerText = ""
-
     private var centerTextX = 0f
     private var centerTextY = 0f
-
     private var bottomTextX = 0f
     private var bottomTextY = 0f
-
-    var topText = ""
     private var topTextX = 0f
     private var topTextY = 0f
-
-
     private var iconRatio = 2f / 4f
-
     private var iconWidth = 0f
     private var iconHeight = 0f
     private var iconDestinationRect: Rect = Rect(0, 0, 0, 0)
-
     private var cardWidth = 0f
     private var cardHeight = 0f
-
     private var rightIcon = false
-
 
     private lateinit var gradient: Shader
 
@@ -136,7 +114,7 @@ class CardView @JvmOverloads constructor(
         centerTextX = 0f + cornerRadius / 2
         topTextX = 0f + cornerRadius / 2
         bottomTextY = cardHeight - cornerRadius / 2
-        centerTextY = height / 2f + textSize/3f
+        centerTextY = height / 2f + textSize / 3f
         topTextY = 0 + cornerRadius / 2 + textSize
     }
 

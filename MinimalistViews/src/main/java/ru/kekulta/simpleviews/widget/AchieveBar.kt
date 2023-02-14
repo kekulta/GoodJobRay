@@ -12,25 +12,10 @@ import kotlin.math.min
 
 
 class AchieveBar @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttribute: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttribute: Int = 0,
 ) : View(context, attrs, defStyleAttribute) {
-
-    private var stageStroke = 0f
-    private var startOffset: Float = 0f
-    private var stageY = 0f
-    private var endOffset: Float = 0f
-    private var stageDiameter: Float = 0f
-    private var stagesWidth: Float = 0f
-    private var stagesGapWidth: Float = 0f
-    private lateinit var gradient: Shader
-    private var cornerRadius = 0f
-    private var strokeCornerRadius = 0f
-    private var stageTextSize = 0f
-    private var title = "Your Habit!"
-
-
-    private var stages: MutableList<Pair<String, Int>>? =
-        MutableList(7) { Pair(dayOfWeek(it), it + 1) }
     var position = 0
         set(value) {
             stages.let { stages ->
@@ -41,6 +26,20 @@ class AchieveBar @JvmOverloads constructor(
             field = value
             invalidate()
         }
+
+    private var stageStroke = 0f
+    private var startOffset: Float = 0f
+    private var stageY = 0f
+    private var endOffset: Float = 0f
+    private var stageDiameter: Float = 0f
+    private var stagesWidth: Float = 0f
+    private var stagesGapWidth: Float = 0f
+    private var cornerRadius = 0f
+    private var strokeCornerRadius = 0f
+    private var stageTextSize = 0f
+    private var title = "Your Habit!"
+    private var stages: MutableList<Pair<String, Int>>? =
+        MutableList(7) { Pair(dayOfWeek(it), it + 1) }
     private var startColor = 0
     private var endColor = 0
     private var stageColor = 0
@@ -51,12 +50,13 @@ class AchieveBar @JvmOverloads constructor(
     private var titleTextSize = 0f
     private var titleX = 0f
     private var titleY = 0f
-
     private var paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
         textAlign = Paint.Align.CENTER
 
     }
+
+    private lateinit var gradient: Shader
 
     init {
         context.withStyledAttributes(attrs, R.styleable.AchieveBar) {

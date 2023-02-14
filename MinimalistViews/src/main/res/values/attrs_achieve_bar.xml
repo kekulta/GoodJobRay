@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AchieveBar">
+        <attr name="corner_radius" />
+        <attr name="color_start" />
+        <attr name="color_end" />
+        <attr name="position" format="integer" />
+        <attr name="title" format="string" />
+        <attr name="stage_color" format="color" />
+        <attr name="stroke_width" format="dimension" />
+        <attr name="stroke_color" format="color" />
+    </declare-styleable>
+</resources>

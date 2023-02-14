@@ -14,7 +14,9 @@ import kotlin.math.max
 import kotlin.math.min
 
 class CircularBar @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttribute: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttribute: Int = 0
 ) : View(context, attrs, defStyleAttribute) {
 
     private var paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
