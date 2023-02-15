@@ -13,8 +13,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "GoodJobRay"
+
 include(":app")
 include(":MinimalistViews")
 
-// Можно перевести на KTS
-// Разобраться с Github Actions / CircleCI -> настроить в своём проекте CI/CD

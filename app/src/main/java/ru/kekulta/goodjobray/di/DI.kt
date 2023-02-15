@@ -2,11 +2,12 @@ package ru.kekulta.goodjobray.di
 
 import android.content.Context
 import ru.kekulta.goodjobray.activity.data.AppDatabase
-import ru.kekulta.goodjobray.activity.presentation.Navigator
+import ru.kekulta.goodjobray.screens.main.Navigator
 import ru.kekulta.goodjobray.screens.home.data.UserRepository
 import ru.kekulta.goodjobray.screens.notes.data.NoteRepository
 import ru.kekulta.goodjobray.screens.planner.data.TaskRepository
 
+// FIXME Круто, что сделал свой DI
 object DI {
 
     private var applicationContext: Context? = null
@@ -29,6 +30,8 @@ object DI {
                 appDatabase = AppDatabase.getDatabase()
             }
             // Можно ли сделать без !!
+            // TODO (19) Я лично считаю, что `!!` - это не очень хорошо, потому что нет внятного сообщения об ошибке.
+            //   Куда лучше сделать `requireNotNull` и описать, что конкретно не так. Но для "ручного DI" - сойдёт
             return appDatabase!!
         }
     }

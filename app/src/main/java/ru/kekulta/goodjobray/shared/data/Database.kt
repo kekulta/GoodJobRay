@@ -7,6 +7,18 @@ import ru.kekulta.goodjobray.utils.Day
 
 import kotlin.random.Random
 
+// TODO (1) -> гораздо лучше, если каждому классу будет соответствовать свой файл - удобнее смотреть и искать отдельные классы
+
+// TODO (2) Никогда не оставляй на откуп каким-то библиотекам понимание того, как именно должны называться твои таблицы / поля и т.п.
+//  У Room-а в аннотации Entity есть возможность указать название таблицы, индексы, foreign-ключи, если это нужно
+//  Аналогично - про колонки, у каждого поля надо указать.
+
+// TODO (3) Очень непонятно, почему база данных и её классы лежат в пакете .activity . `.activity` - это название фичи?
+//  Или имелась в виду андроидная Activity? Гораздо понятнее, когда база данных лежит ближе к слою `Data` по Clean-у.
+//  Можно перенести в пакет .data просто, без `.activity`
+
+// TODO (6) Я б разнёс классы-модели и классы-DAO по пакетам --> .entity (или .model, или .models, whatever) / .dao
+
 @Entity
 data class User(
     @PrimaryKey val id: Int,
@@ -37,7 +49,29 @@ data class Note(
 
 @Dao
 interface UserDao {
-    @Query("select * from User where id = :id")
+    // TODO (4) Обычно синтаксис SQL-я пишут с большой буквы, просто такой принятый codestyle
+    //  SELECT * FROM ...
+    // TODO Когда пишешь SQL-выражения для Room очень удобно пользоваться фичой котлина - multiline string
+    // @Query("""
+    //        SELECT *
+    //        FROM User
+    //        WHERE id = :id
+    //    """)
+    // TODO (5) Вынеси константы названий колонок и таблиц в объекты и используй в SQL-выражениях именно их.
+    //   Это поможет разом поменять какие-то названия если что и не сломать при этом SQL-выражения.
+    /*
+
+    object TablesNames {
+        const val USER = "User"
+        const val TASK = "Task"
+    }
+
+     */
+    @Query("""
+        select * 
+        from User 
+        where id = :id
+    """)
     fun getUser(id: Int): User?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -97,6 +131,7 @@ interface NoteDao {
 }
 
 
+// TODO (7) А почему exportSchema = false ?
 @Database(entities = [Task::class, User::class, Note::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
