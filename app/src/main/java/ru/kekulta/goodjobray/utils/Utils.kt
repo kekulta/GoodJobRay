@@ -3,7 +3,7 @@ package ru.kekulta.goodjobray.utils
 import android.content.res.Resources
 import android.util.TypedValue
 
-
+// TODO --> перенести ближе к UserRepository
 const val ID: Int = 123456
 
 val Number.dp

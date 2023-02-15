@@ -85,12 +85,12 @@ class HomeViewModel : ViewModel() {
 
 
     fun pickPhoto() {
-        println(PhotoPicker.getPhoto { bitmap, uri ->
+        PhotoPicker.getPhoto { bitmap, uri ->
             println("new photo: $uri, bitmap: $bitmap")
             bitmap?.let {
                 photoUpdated = true
                 _photo.value = it
             }
-        })
+        }
     }
 }
