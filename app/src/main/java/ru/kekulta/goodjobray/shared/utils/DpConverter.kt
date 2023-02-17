@@ -1,10 +1,9 @@
-package ru.kekulta.goodjobray.utils
+package ru.kekulta.goodjobray.shared.data.utils
 
 import android.content.res.Resources
 import android.util.TypedValue
 
-// TODO --> перенести ближе к UserRepository
-const val ID: Int = 123456
+
 
 val Number.dp
     get() = TypedValue.applyDimension(
