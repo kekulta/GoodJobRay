@@ -7,7 +7,9 @@ import androidx.fragment.app.commit
 import ru.kekulta.goodjobray.screens.planner.ui.PlannerFragment
 import ru.kekulta.goodjobray.R
 import ru.kekulta.goodjobray.databinding.ActivityMainBinding
+import ru.kekulta.goodjobray.di.DI
 import ru.kekulta.goodjobray.screens.home.presentation.PhotoPicker
+import ru.kekulta.goodjobray.screens.main.navigator.MainNavigator
 import ru.kekulta.goodjobray.screens.notes.ui.NotesFragment
 
 // TODO (20) MainActivity - это такая же ФИЧА, как и другие твои экраны. По-хорошему, у тебя должен был быть пакет .features.main
@@ -15,36 +17,32 @@ import ru.kekulta.goodjobray.screens.notes.ui.NotesFragment
 class MainActivity : AppCompatActivity() {
 
     // TODO (12) Binding разве не нужно очищать в onDestroy / onDestroyView ?
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: MainViewModel by viewModels()
 
-    // TODO (16) не знаю как тебя, а меня лично бесит такое писать, дублировать кучу свойств непонятно ради чего.
-    private var _navigator: Navigator? = null
-    private val navigator get() = _navigator!!
-
-
     init {
-        //Другие способы доставать фото из галереи?
-        PhotoPicker.init(this)
+
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Context -> Application Context
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        DI.initNavigator(supportFragmentManager, R.id.fragmentContainerView, MainNavigator.HOME)
+
+        PhotoPicker.init(this)
+
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
 
-//        initViewModel()
-
         initNavigationBar()
 
-        initScreenChanger()
     }
-
 
     private fun initNavigationBar() {
         // TODO (15) Так у тебя навигатор - это часть бизнес-логики или UI, определись)
@@ -54,7 +52,6 @@ class MainActivity : AppCompatActivity() {
         //   То есть Activity навесило click listener, при нажатии ты вызываешь метод ViewModel, та -
         //   дёргает внутри себя навигатор и меняет экран. И, поскольку у тебя уже есть observe навигации,
         //   то всё автоматом сменится
-//        _navigator = DI.getNavigator()
 
         binding.homeBt.setOnClickListener {
             viewModel.onHomeButtonClick()
@@ -62,33 +59,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.plannerBt.setOnClickListener {
-            navigator.setScreen(PlannerFragment::class.java)
+            viewModel.onPlannerButtonClick()
         }
 
         binding.notesBt.setOnClickListener {
-            navigator.setScreen(NotesFragment::class.java)
+            viewModel.onNotesButtonClick()
         }
 
     }
-
-    private fun initScreenChanger() {
-        viewModel.screen.observe(this) { screen ->
-            supportFragmentManager.commit {
-                replace(R.id.fragmentContainerView, screen, null)
-            }
-        }
-    }
-
-    private fun initViewModel() {
-        // TODO (13) Вроде в Kotlin-е есть удобный делегат для доставания ViewModel :thinking_face:
-//        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-    }
-
-    private fun initLayout() {
-        // TODO (14) в таких маленьких классах как твой разбиение на мелкие методы только вредит, честно говоря)
-
-    }
-
 
 
 }

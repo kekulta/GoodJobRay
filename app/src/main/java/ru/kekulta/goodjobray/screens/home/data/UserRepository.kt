@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.kekulta.goodjobray.activity.data.User
 import ru.kekulta.goodjobray.activity.data.UserDao
-import ru.kekulta.goodjobray.utils.ID
+
+const val ID = 123456
 
 // TODO FIXME - зачёт за избавление от передачи Dao в методы
 class UserRepository(private val dao: UserDao) {

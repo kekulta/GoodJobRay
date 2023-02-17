@@ -15,6 +15,7 @@ import ru.kekulta.goodjobray.databinding.FragmentHomeBinding
 import ru.kekulta.goodjobray.screens.habits.ui.HabitsFragment
 import ru.kekulta.goodjobray.screens.home.presentation.HomeViewModel
 import ru.kekulta.goodjobray.screens.home.presentation.PhotoPicker
+import ru.kekulta.goodjobray.screens.main.navigator.MainNavigator
 import kotlin.concurrent.thread
 
 class HomeFragment : Fragment() {
@@ -46,7 +47,7 @@ class HomeFragment : Fragment() {
 
     private fun setOnClickListeners() {
         binding.habitsCv.setOnClickListener {
-            DI.getNavigator().setScreen(HabitsFragment::class.java)
+            DI.getNavigator().navigateTo(MainNavigator.HABITS)
         }
 
         binding.helloTv.setOnLongClickListener {

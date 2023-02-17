@@ -23,8 +23,8 @@ import ru.kekulta.goodjobray.databinding.FragmentPlannerBinding
 import ru.kekulta.goodjobray.screens.planner.presentation.DateRecyclerClickListener
 import ru.kekulta.goodjobray.screens.planner.presentation.DatesAdapter
 import ru.kekulta.goodjobray.screens.planner.presentation.PlannerViewModel
+import ru.kekulta.goodjobray.shared.data.utils.dp
 import ru.kekulta.goodjobray.utils.Day
-import ru.kekulta.goodjobray.utils.dp
 
 import ru.kekulta.simpleviews.widget.CardView
 
@@ -203,7 +203,6 @@ class PlannerFragment : Fragment() {
         }
 
 
-
     }
 
 
@@ -286,11 +285,13 @@ class PlannerFragment : Fragment() {
             when {
                 value == null || (value.first == null && value.second == null) -> adddingLiveData.value =
                     Pair(hour, null)
+
                 value.first == hour -> nullAddingLiveData()
                 value.first != null -> {
                     if (hour < (value.first ?: 23)) nullAddingLiveData()
                     else adddingLiveData.value = Pair(value.first, hour)
                 }
+
                 else -> nullAddingLiveData()
             }
         }

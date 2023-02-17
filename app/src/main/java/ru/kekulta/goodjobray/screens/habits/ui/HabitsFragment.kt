@@ -17,15 +17,7 @@ class HabitsFragment : Fragment() {
 
     // TODO (22) Думаю, что и в других фрагментах аналогично - заюзай Kotlin-делегат
     private lateinit var viewModel: HabitsViewModel
-    private lateinit var callback: OnBackPressedCallback
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        callback = requireActivity().onBackPressedDispatcher.addCallback {
-            // TODO (23) - навигация это бизнес-логика или UI?.. везде придерживайяся единого подхода
-            DI.getNavigator().setScreen(HomeFragment::class.java)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +36,6 @@ class HabitsFragment : Fragment() {
         super.onDestroyView()
         // TODO (25) странно, что создаётся колбек в onCreate, а удаляется в onDestroyView -
         //  это не "симметричные" колбеки.
-        callback.remove()
     }
 
 

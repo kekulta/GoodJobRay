@@ -74,6 +74,10 @@ class HomeViewModel : ViewModel() {
         ).size
     }
 
+    fun onHabitsButtonClicked() {
+
+    }
+
     fun setPhoto(uri: String) {
         userRepository.setPhoto(uri)
 

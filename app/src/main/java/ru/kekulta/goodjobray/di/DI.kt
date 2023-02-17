@@ -1,9 +1,10 @@
 package ru.kekulta.goodjobray.di
 
 import android.content.Context
+import androidx.fragment.app.FragmentManager
 import ru.kekulta.goodjobray.activity.data.AppDatabase
-import ru.kekulta.goodjobray.screens.main.Navigator
 import ru.kekulta.goodjobray.screens.home.data.UserRepository
+import ru.kekulta.goodjobray.screens.main.navigator.MainNavigator
 import ru.kekulta.goodjobray.screens.notes.data.NoteRepository
 import ru.kekulta.goodjobray.screens.planner.data.TaskRepository
 
@@ -16,7 +17,7 @@ object DI {
     private var userRepository: UserRepository? = null
     private var taskRepository: TaskRepository? = null
     private var noteRepository: NoteRepository? = null
-    private var navigator: Navigator? = null
+    private var navigator: MainNavigator? = null
 
     fun initDi(applicationContext: Context) {
         DI.applicationContext = applicationContext
@@ -57,10 +58,11 @@ object DI {
         return noteRepository!!
     }
 
-    fun getNavigator(): Navigator {
-        if (navigator == null) {
-            navigator = Navigator()
-        }
-        return navigator!!
+    fun initNavigator(fragmentManager: FragmentManager, container: Int, startScreen: String) {
+        navigator = MainNavigator(fragmentManager, container, startScreen)
+    }
+
+    fun getNavigator(): MainNavigator {
+        return requireNotNull(navigator) { "Navigator should be initialized" }
     }
 }
