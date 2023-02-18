@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import ru.kekulta.goodjobray.R
-import ru.kekulta.goodjobray.utils.Day
+import ru.kekulta.goodjobray.utils.Date
 import ru.kekulta.simpleviews.widget.CardView
 
 class DatesAdapter : RecyclerView.Adapter<DatesAdapter.DateViewHolder>() {
@@ -18,11 +18,11 @@ class DatesAdapter : RecyclerView.Adapter<DatesAdapter.DateViewHolder>() {
             val oldValue = field
             field = value
             notifyItemChanged(oldValue)
-            if (value in days.indices)
+            if (value in dates.indices)
                 notifyItemChanged(value)
         }
     var listener: DateRecyclerClickListener? = null
-    var days: List<Day> = mutableListOf()
+    var dates: List<Date> = mutableListOf()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -40,8 +40,8 @@ class DatesAdapter : RecyclerView.Adapter<DatesAdapter.DateViewHolder>() {
         fun onBind() {
             //println("${days[adapterPosition].dayOfMonth} on bind, adapterPosition: ${adapterPosition}")
             card.apply {
-                bottomText = days[adapterPosition].dayOfMonth.toString()
-                topText = Day.threeLetterNameDayOfWeek(days[adapterPosition].dayOfWeek)
+                bottomText = dates[adapterPosition].dayOfMonth.toString()
+                topText = Date.threeLetterNameDayOfWeek(dates[adapterPosition].dayOfWeek)
                 if (adapterPosition == currentDay) {
                     startColor = ResourcesCompat.getColor(
                         resources,
@@ -85,6 +85,6 @@ class DatesAdapter : RecyclerView.Adapter<DatesAdapter.DateViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return days.size
+        return dates.size
     }
 }

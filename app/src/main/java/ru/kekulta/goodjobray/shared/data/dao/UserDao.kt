@@ -1,37 +1,35 @@
-package ru.kekulta.goodjobray.activity.data
+package ru.kekulta.goodjobray.shared.data.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
+import ru.kekulta.goodjobray.shared.data.models.User
 
 @Dao
 interface UserDao {
-    // TODO (4) Обычно синтаксис SQL-я пишут с большой буквы, просто такой принятый codestyle
-    //  SELECT * FROM ...
-    // TODO Когда пишешь SQL-выражения для Room очень удобно пользоваться фичой котлина - multiline string
-    // @Query("""
-    //        SELECT *
-    //        FROM User
-    //        WHERE id = :id
-    //    """)
-    // TODO (5) Вынеси константы названий колонок и таблиц в объекты и используй в SQL-выражениях именно их.
-    //   Это поможет разом поменять какие-то названия если что и не сломать при этом SQL-выражения.
-    /*
+    @Query(
+        """
+        SELECT * 
+        FROM ${User.USERS} 
+        WHERE ${User.ID} = :id
+    """
+    )
+    fun getUserLiveData(id: Int): LiveData<User>
 
-    object TablesNames {
-        const val USER = "User"
-        const val TASK = "Task"
-    }
-
-     */
-    @Query("""
-        select * 
-        from User 
-        where id = :id
+    @Query(value = """
+        SELECT *
+        FROM ${User.USERS} 
+        WHERE ${User.ID} = :id
     """)
     fun getUser(id: Int): User?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insert(user: User)
+
+    @Update
+    fun update(user: User)
+
 }

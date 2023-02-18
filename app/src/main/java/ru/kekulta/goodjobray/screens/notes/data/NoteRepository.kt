@@ -1,83 +1,49 @@
 package ru.kekulta.goodjobray.screens.notes.data
 
 
+import androidx.lifecycle.LiveData
 import ru.kekulta.goodjobray.activity.data.Note
 import ru.kekulta.goodjobray.activity.data.NoteDao
-import ru.kekulta.goodjobray.utils.DataObservable
 
 
-class NoteRepository(private val dao: NoteDao) : DataObservable {
+class NoteRepository(private val dao: NoteDao) {
 
-    private val observers = mutableListOf<() -> Unit>()
+    fun observeNotes(): LiveData<List<Note>> =
+        dao.getNotesLiveData()
 
-    val pinnedNotes: List<Note>
-        get() = dao.getPinnedNotes()
-    val notes: List<Note>
-        get() = dao.getNotes()
-
-
-    init {
-        println(
-
-            "notes loaded with notes: ${
-                notes.filter { it.text == "" }.map { it.id }
-            }, ${notes.filter { it.text == "" }.size}"
-        )
-        notifyObservers()
-    }
+    fun observePinnedNotes(): LiveData<List<Note>> =
+        dao.getPinnedNotesLiveData()
 
     fun pinNote(note: Note) {
-        dao.insert(
+        dao.update(
             Note(
                 id = note.id,
                 title = note.title,
                 text = note.text,
-                pinned = true,
-                time = note.time
+                isPinned = true,
+                creationTime = note.creationTime
             )
         )
-        notifyObservers()
     }
 
     fun unpinNote(note: Note) {
-        dao.insert(
+        dao.update(
             Note(
                 id = note.id,
                 title = note.title,
                 text = note.text,
-                pinned = false,
-                time = note.time
+                isPinned = false,
+                creationTime = note.creationTime
             )
         )
-        notifyObservers()
     }
 
     fun addNote(note: Note) {
         println("adding note: $note")
         dao.insert(note)
-        notifyObservers()
     }
 
     fun deleteNote(note: Note) {
         dao.delete(note)
-        notifyObservers()
-    }
-
-
-    override fun addObserver(observer: () -> Unit) {
-        observers.add(observer)
-    }
-
-    override fun removeObserver(observer: () -> Unit) {
-        observers.remove(observer)
-    }
-
-    override fun notifyObservers() {
-        println("notify observers with notes: ${notes.filter { it.text == "" }}, ${notes.filter { it.text == "" }.size}")
-        observers.let { observers ->
-            observers.forEach { observer ->
-                observer.invoke()
-            }
-        }
     }
 }

@@ -13,7 +13,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.MediatorLiveData
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +25,7 @@ import ru.kekulta.goodjobray.screens.planner.presentation.DateRecyclerClickListe
 import ru.kekulta.goodjobray.screens.planner.presentation.DatesAdapter
 import ru.kekulta.goodjobray.screens.planner.presentation.PlannerViewModel
 import ru.kekulta.goodjobray.shared.data.utils.dp
-import ru.kekulta.goodjobray.utils.Day
+import ru.kekulta.goodjobray.utils.Date
 
 import ru.kekulta.simpleviews.widget.CardView
 
@@ -36,12 +37,15 @@ class PlannerFragment : Fragment() {
     private var _binding: FragmentPlannerBinding? = null
     private val binding get() = _binding!!
     private lateinit var datesRecycler: RecyclerView
-    private lateinit var viewModel: PlannerViewModel
+    private val viewModel: PlannerViewModel by viewModels({ requireActivity() })
     private var timeItems = mutableListOf<TextView>()
     private var taskItems = mutableListOf<CardView>()
 
-    private val adddingLiveData = MediatorLiveData<Pair<Int?, Int?>>()
+    private val taskCreationBuffer = MutableLiveData<Pair<Int?, Int?>>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,22 +58,19 @@ class PlannerFragment : Fragment() {
 
     inner class DatesListener : DateRecyclerClickListener {
         override fun onClick(index: Int, cardView: CardView) {
-            if (::viewModel.isInitialized) viewModel.setCurrentDay(index + 1)
+            viewModel.dayClicked(index + 1)
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(PlannerViewModel::class.java)
-
         generateTimeline()
 
         configureAddingLiveData()
 
         setupDatesRecycler()
 
-        observerCurrentDate()
+        observeCurrentDate()
 
         bindMonthSwitch()
 
@@ -85,15 +86,15 @@ class PlannerFragment : Fragment() {
 
     private fun bindMonthSwitch() {
         binding.monthYearTv.setOnClickListener {
-            viewModel.nextMonth()
+            viewModel.nextMonthButtonClicked()
         }
         binding.monthYearTv.setOnLongClickListener {
-            viewModel.previousMonth()
+            viewModel.previousMonthButtonClicked()
             true
         }
     }
 
-    private fun observerCurrentDate() {
+    private fun observeCurrentDate() {
         viewModel.tasks.observe(viewLifecycleOwner) { tasks ->
             taskItems.forEach {
                 binding.timesContainer.removeView(it)
@@ -101,10 +102,11 @@ class PlannerFragment : Fragment() {
             generateTask(tasks)
         }
 
-        viewModel.currentMonth.observe(viewLifecycleOwner) { curMonth ->
-            viewModel.currentYear.value.let { curYear ->
-                val year = curYear ?: "Year"
-                binding.monthYearTv.text = "${Day.monthFullName(curMonth)} $year"
+        viewModel.currentDate.observe(viewLifecycleOwner) { date ->
+            date.let { date ->
+                val year = date.year
+                val monthName = Date.monthFullName(date.month)
+                binding.monthYearTv.text = "$monthName $year"
             }
         }
     }
@@ -115,12 +117,11 @@ class PlannerFragment : Fragment() {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = DatesAdapter().apply {
-                viewModel.days.observe(viewLifecycleOwner) {
-                    //println(it)
-                    days = it
+                viewModel.days.observe(viewLifecycleOwner) { dates ->
+                    this.dates = dates
                 }
-                viewModel.currentDay.observe(viewLifecycleOwner) {
-                    currentDay = it
+                viewModel.currentDate.observe(viewLifecycleOwner) { date ->
+                    this.currentDay = date.dayOfMonth
                 }
                 listener = DatesListener()
             }
@@ -162,8 +163,7 @@ class PlannerFragment : Fragment() {
                     )
                 }
                 setOnLongClickListener {
-                    println("task: $task long clicked")
-                    viewModel.deleteTask(task)
+                    viewModel.taskDeleteButtonClicked(task)
                     true
                 }
             }
@@ -197,24 +197,19 @@ class PlannerFragment : Fragment() {
             binding.timesContainer.addView(textView)
             timeItems.add(textView)
         }
-
         binding.tasksSv.post {
-            binding.tasksSv.smoothScrollTo(0, timeItems[viewModel.currentHour.value!!].top)
+            binding.tasksSv.smoothScrollTo(0, timeItems[Date.actualHour].top)
         }
-
-
     }
 
 
     inner class TimeItemListener : View.OnClickListener, View.OnLongClickListener {
         override fun onClick(view: View) {
-            println("TimeItem ${view.id - TIME_ID}-${viewModel.currentDay.value}-${viewModel.currentMonth.value}-${viewModel.currentYear.value} clicked")
             addingLiveDataClicked(view.id - TIME_ID)
         }
 
         override fun onLongClick(view: View): Boolean {
             addTask(view.id - TIME_ID)
-            println("TimeItem ${view.id - TIME_ID}-${viewModel.currentDay.value}-${viewModel.currentMonth.value}-${viewModel.currentYear.value} long clicked")
             return true
         }
 
@@ -240,6 +235,7 @@ class PlannerFragment : Fragment() {
                 dialogView.findViewById<EditText>(R.id.toHourEt).text.toString().toIntOrNull()
 
             if (hourFrom != null && hourTo != null && hourTo >= hourFrom && hourTo in 0..23 && hourFrom in 0..23) {
+                // FIXME отдаём команду напрямую вьюмодели
                 viewModel.addTask(
                     hourFrom, hourTo, title.ifBlank { null }
                 )
@@ -269,6 +265,7 @@ class PlannerFragment : Fragment() {
             "OK"
         ) { _, _ ->
             val title = input.text.toString()
+            // FIXME отдаём команду напрямую вьюмодели
             viewModel.addTask(
                 hourFrom, hourTo, title.ifBlank { null }
             )
@@ -281,15 +278,15 @@ class PlannerFragment : Fragment() {
     }
 
     fun addingLiveDataClicked(hour: Int) {
-        adddingLiveData.value.let { value ->
+        taskCreationBuffer.value.let { value ->
             when {
-                value == null || (value.first == null && value.second == null) -> adddingLiveData.value =
+                value == null || (value.first == null && value.second == null) -> taskCreationBuffer.value =
                     Pair(hour, null)
 
                 value.first == hour -> nullAddingLiveData()
                 value.first != null -> {
                     if (hour < (value.first ?: 23)) nullAddingLiveData()
-                    else adddingLiveData.value = Pair(value.first, hour)
+                    else taskCreationBuffer.value = Pair(value.first, hour)
                 }
 
                 else -> nullAddingLiveData()
@@ -298,17 +295,11 @@ class PlannerFragment : Fragment() {
     }
 
     private fun configureAddingLiveData() {
-        adddingLiveData.addSource(viewModel.currentDay) {
-            nullAddingLiveData()
-        }
-        adddingLiveData.addSource(viewModel.currentMonth) {
-            nullAddingLiveData()
-        }
-        adddingLiveData.addSource(viewModel.currentYear) {
+        viewModel.currentDate.observe(viewLifecycleOwner) {
             nullAddingLiveData()
         }
 
-        adddingLiveData.observe(viewLifecycleOwner) {
+        taskCreationBuffer.observe(viewLifecycleOwner) {
             val fromHour = it.first
             val toHour = it.second
             if (fromHour != null && toHour != null) {
@@ -320,8 +311,8 @@ class PlannerFragment : Fragment() {
     }
 
     private fun nullAddingLiveData() {
-        if (adddingLiveData.value != Pair(null, null)) {
-            adddingLiveData.value = Pair(null, null)
+        if (taskCreationBuffer.value != Pair(null, null)) {
+            taskCreationBuffer.value = Pair(null, null)
         }
     }
 

@@ -1,50 +1,35 @@
 package ru.kekulta.goodjobray.screens.planner.data
 
 
+import androidx.lifecycle.LiveData
 import ru.kekulta.goodjobray.activity.data.Task
 import ru.kekulta.goodjobray.activity.data.TaskDao
-import ru.kekulta.goodjobray.utils.DataObservable
+import ru.kekulta.goodjobray.utils.Date
 
 
-class TaskRepository(private val dao: TaskDao) : DataObservable {
+class TaskRepository(private val dao: TaskDao) {
 
-
-    private val observers: MutableList<() -> Unit> = mutableListOf()
-
-
-    init {
-        notifyObservers()
+    fun observeTasksCountForDay(date: Date): LiveData<Int> {
+        return dao.countTasksForDayLiveData(date.dayOfMonth, date.month, date.year)
     }
 
-    fun getTasksForDay(day: Int?, month: Int?, year: Int?): List<Task> {
-        println("request for tasks at $day-$month-$year in GlobalModel")
-        if (day == null || month == null || year == null) return listOf()
-        return dao.getTasksForDay(day, month, year)
+    fun getTasksCountForDay(date: Date): Int {
+        return dao.countTasksForDay(date.dayOfMonth, date.month, date.year)
     }
 
+    fun observeTasksForDay(date: Date): LiveData<List<Task>> {
+        return dao.getTasksForDayLiveData(date.dayOfMonth, date.month, date.year)
+    }
+
+    fun getTasksForDay(date: Date): List<Task> {
+        return dao.getTasksForDay(date.dayOfMonth, date.month, date.year)
+    }
 
     fun deleteTask(task: Task) {
         dao.delete(task)
-        notifyObservers()
     }
 
     fun addTask(task: Task) {
         dao.insert(task)
-        notifyObservers()
     }
-
-    override fun notifyObservers() {
-        observers.let { listeners ->
-            listeners.forEach { listener -> listener.invoke() }
-        }
-    }
-
-    override fun addObserver(observer: () -> Unit) {
-        observers.add(observer)
-    }
-
-    override fun removeObserver(observer: () -> Unit) {
-        observers.remove(observer)
-    }
-
 }

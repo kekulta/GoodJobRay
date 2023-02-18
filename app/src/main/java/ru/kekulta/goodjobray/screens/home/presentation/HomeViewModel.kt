@@ -4,41 +4,38 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.CreationExtras
+import ru.kekulta.goodjobray.shared.data.models.User
 import ru.kekulta.goodjobray.di.DI
-import ru.kekulta.goodjobray.utils.Day
+import ru.kekulta.goodjobray.utils.Date
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
+import ru.kekulta.goodjobray.screens.home.data.ID
+import ru.kekulta.goodjobray.screens.home.data.UserRepository
+import ru.kekulta.goodjobray.screens.main.navigator.MainNavigator
+import ru.kekulta.goodjobray.screens.planner.data.TaskRepository
+import java.io.InputStream
 
 import kotlin.concurrent.thread
 
 
-class HomeViewModel : ViewModel() {
-
-
-
-    init {
-        println("HomeViewModel created")
-    }
-
+class HomeViewModel(
+    private val userRepository: UserRepository,
+    private val taskRepository: TaskRepository,
+    private val internalSaver: InternalSaver
+) : ViewModel() {
     private val handler = Handler(Looper.getMainLooper())
-    private val userRepository = DI.getUserRepository()
-    private val taskRepository = DI.getTaskRepository()
 
-    private val _tasks = MutableLiveData(
-        taskRepository.getTasksForDay(
-            Day.actualDay,
-            Day.actualMonth,
-            Day.actualYear
-        ).size
-    )
-    var photoUpdated = false
 
-    val tasks: LiveData<Int> get() = _tasks
-    val name: LiveData<String> get() = userRepository.name
+    val tasks: LiveData<Int> get() = taskRepository.observeTasksCountForDay(Date.today())
+    val user: LiveData<User>
+        get() = userRepository.observeUserById(ID)
 
     private val _progression = MutableLiveData(71)
     val progression: LiveData<Int>
@@ -49,51 +46,66 @@ class HomeViewModel : ViewModel() {
         get() = _photo
 
     init {
-        taskRepository.addObserver { updateTasks() }
-
-        println("photo from memory: ${userRepository.photo}")
         thread { loadPhotoFromInternal() }
     }
 
     private fun loadPhotoFromInternal() {
         try {
-            val f = File(userRepository.photo, "ProfilePicture.png")
+            val f = File(userRepository.getUserById(ID)?.photo, "ProfilePicture.png")
+            Log.d(LOG_TAG, "Bitmap from ${f.absolutePath} is loading")
             val b = BitmapFactory.decodeStream(FileInputStream(f))
-            println("Photo downloaded from memory")
             handler.post { _photo.value = b }
+            Log.d(LOG_TAG, "Bitmap from ${f.absolutePath} loaded")
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
         }
     }
 
-    private fun updateTasks() {
-        _tasks.value = taskRepository.getTasksForDay(
-            Day.actualDay,
-            Day.actualMonth,
-            Day.actualYear
-        ).size
-    }
-
     fun onHabitsButtonClicked() {
-
-    }
-
-    fun setPhoto(uri: String) {
-        userRepository.setPhoto(uri)
-
+        DI.getNavigator().navigateTo(MainNavigator.HABITS)
     }
 
     fun setName(name: String) {
-        userRepository.setName(name)
+        userRepository.getUserById(ID)?.let { user ->
+            userRepository.updateUser(User(user.id, name, user.photo))
+        }
     }
 
+    fun loadPhoto(stream: InputStream, uri: String) {
+        val user = userRepository.getUserById(ID)
+        stream.use {
+            _photo.value = BitmapFactory.decodeStream(it)
+        }
+        Log.d(
+            LOG_TAG,
+            "user: ${user}, bitmap: ${photo.value}"
+        )
+        thread {
+            photo.value?.let { bitmap ->
+                Log.d(LOG_TAG, "bitmap $bitmap is saving to the memory")
+                val uri = internalSaver.saveToInternal(bitmap, "ProfilePicture")
+                Log.d(LOG_TAG, "bitmap $bitmap saved to $uri")
+                user?.let { user ->
+                    userRepository.updateUser(User(user.id, user.name, uri))
+                }
+            }
+        }
 
-    fun pickPhoto() {
-        PhotoPicker.getPhoto { bitmap, uri ->
-            println("new photo: $uri, bitmap: $bitmap")
-            bitmap?.let {
-                photoUpdated = true
-                _photo.value = it
+
+    }
+
+    companion object {
+        const val LOG_TAG = "HomeViewModel"
+
+        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(
+                modelClass: Class<T>,
+                extras: CreationExtras
+            ): T {
+                return HomeViewModel(
+                    DI.getUserRepository(), DI.getTaskRepository(), DI.getInternalSaver()
+                ) as T
             }
         }
     }

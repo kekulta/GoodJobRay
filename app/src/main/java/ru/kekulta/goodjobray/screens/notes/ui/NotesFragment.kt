@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -25,7 +26,7 @@ class NotesFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var notesRecycler: RecyclerView
     private lateinit var pinnedNotesRecycler: RecyclerView
-    private lateinit var viewModel: NotesViewModel
+    private val viewModel: NotesViewModel by viewModels({ requireActivity() })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,11 +38,8 @@ class NotesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(NotesViewModel::class.java)
-
         setupNotesRecycler()
         setupPinnedNotesRecycler()
-
         bindToolbar()
     }
 

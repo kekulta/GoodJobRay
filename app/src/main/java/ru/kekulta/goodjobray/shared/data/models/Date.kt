@@ -2,9 +2,26 @@ package ru.kekulta.goodjobray.utils
 
 import java.util.Calendar
 
-data class Day(val dayOfMonth: Int, val monthNum: Int, val dayOfWeek: Int, val year: Int = 2022) {
+data class Date(val dayOfMonth: Int, val month: Int, val year: Int = 2022) {
+    val dayOfWeek: Int
+    val daysInMonth: Int
+
+    init {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+        daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+    }
+
+    fun setDay(day: Int) = Date(day, month, year)
+    fun setMonth(month: Int) = Date(dayOfMonth, month, year)
+    fun setYear(year: Int) = Date(dayOfMonth, month, year)
+
     companion object {
-        val actualDay: Int
+        val actualDayOfMonth: Int
             get() = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         val actualMonth: Int
             get() = Calendar.getInstance().get(Calendar.MONTH)
@@ -13,7 +30,7 @@ data class Day(val dayOfMonth: Int, val monthNum: Int, val dayOfWeek: Int, val y
         val actualHour: Int
             get() = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
 
-        fun getDaysFor(month: Int, year: Int): List<Day> {
+        fun getDaysFor(month: Int, year: Int): List<Date> {
             val calendar = Calendar.getInstance()
 
             calendar.set(Calendar.MONTH, month)
@@ -22,9 +39,18 @@ data class Day(val dayOfMonth: Int, val monthNum: Int, val dayOfWeek: Int, val y
             val daysIn = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
             val daysList = List(daysIn) {
                 calendar.set(Calendar.DAY_OF_MONTH, it + 1)
-                Day(it + 1, month, calendar.get(Calendar.DAY_OF_WEEK), year)
+                Date(it + 1, month, year)
             }
             return daysList
+        }
+
+        fun today(): Date {
+            val calendar = Calendar.getInstance()
+            return Date(
+                calendar.get(Calendar.DAY_OF_MONTH),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.YEAR)
+            )
         }
 
         fun threeLetterNameDayOfWeek(dayNum: Int): String {

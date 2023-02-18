@@ -8,34 +8,33 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
+import androidx.fragment.app.viewModels
 import ru.kekulta.goodjobray.di.DI
 import ru.kekulta.goodjobray.R
+import ru.kekulta.goodjobray.databinding.ActivityMainBinding
 import ru.kekulta.goodjobray.screens.habits.presentation.HabitsViewModel
 import ru.kekulta.goodjobray.screens.home.ui.HomeFragment
 
 class HabitsFragment : Fragment() {
 
-    // TODO (22) Думаю, что и в других фрагментах аналогично - заюзай Kotlin-делегат
-    private lateinit var viewModel: HabitsViewModel
+    private val viewModel: HabitsViewModel by viewModels({ requireActivity() })
+
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // TODO (24) А почему тут без ViewBinding? По-хорошему, весь проект должен юзать ОДИН И ТОТ же подход ко всему.
-        return inflater.inflate(R.layout.fragment_habits, container, false)
+    ): View {
+        _binding = ActivityMainBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(HabitsViewModel::class.java)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // TODO (25) странно, что создаётся колбек в onCreate, а удаляется в onDestroyView -
-        //  это не "симметричные" колбеки.
+        _binding = null
     }
 
 
