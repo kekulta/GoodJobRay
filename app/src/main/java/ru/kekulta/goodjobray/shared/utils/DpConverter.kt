@@ -2,7 +2,7 @@ package ru.kekulta.goodjobray.shared.data.utils
 
 import android.content.res.Resources
 import android.util.TypedValue
-
+import java.time.LocalDate
 
 
 val Number.dp
@@ -11,3 +11,4 @@ val Number.dp
         this.toFloat(),
         Resources.getSystem().displayMetrics
     )
+

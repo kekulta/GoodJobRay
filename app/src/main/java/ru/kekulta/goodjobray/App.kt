@@ -1,32 +1,44 @@
 package ru.kekulta.goodjobray
 
 import android.app.Application
-import android.util.Log
-import ru.kekulta.goodjobray.shared.data.models.User
+import androidx.fragment.app.FragmentManager
 import ru.kekulta.goodjobray.di.DI
-import ru.kekulta.goodjobray.screens.home.data.ID
+import ru.kekulta.goodjobray.screens.main.navigator.MainNavigator
+import ru.kekulta.goodjobray.shared.data.manager.UserManager
 
 
-// TODO (17) Application -> странно что в пакете .di
 internal class App : Application() {
+
+    private var navigator: MainNavigator? = null
+
     override fun onCreate() {
         super.onCreate()
         DI.initDi(this)
+        INSTANCE = this
 
         createUser()
     }
 
     private fun createUser() {
-        if (DI.getUserRepository().getUserById(ID) == null) {
-            DI.getUserRepository().addUser(User(ID))
-            Log.d(LOG_TAG, "There is no user with ID = $ID in DB, user inserted")
-        } else {
-            Log.d(LOG_TAG, "User with ID = $ID found")
-        }
+        DI.getUserManager().forceSetUser(UserManager.ID)
+    }
+
+    fun setNavigator(fragmentManager: FragmentManager, container: Int, startScreen: String) {
+        navigator = MainNavigator(fragmentManager, container, startScreen)
+    }
+
+    fun removeNavigator() {
+        navigator = null
+    }
+
+    fun getNavigator(): MainNavigator {
+        return requireNotNull(navigator) { "Navigator should be initialized" }
     }
 
     companion object {
         const val LOG_TAG = "Application"
+
+        lateinit var INSTANCE: App
     }
 }
 

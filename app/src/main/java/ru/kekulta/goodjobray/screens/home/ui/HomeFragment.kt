@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
 
-        setObservers()
+        observeState()
     }
 
     private fun setOnClickListeners() {
@@ -71,40 +71,38 @@ class HomeFragment : Fragment() {
         }
 
         binding.profilePv.setOnLongClickListener {
-            activityResultLauncher.let {
-                requireNotNull(it) { "PhotoPicker must be initialized" }
-                it.launch(galleryIntent)
+            activityResultLauncher.let { resultLaucher ->
+                requireNotNull(resultLaucher) { "ResultLauncher must be initialized" }
+                resultLaucher.launch(galleryIntent)
             }
             true
         }
     }
 
-    private fun setObservers() {
-        viewModel.photo.observe(viewLifecycleOwner) { bitmap ->
-
-            Log.d(LOG_TAG, "bitmap observed: $bitmap")
-
-            bitmap?.let {
-                binding.profilePv.bitmap = it
+    private fun observeState() {
+        viewModel.observeState().observe(viewLifecycleOwner) { homeScreenState ->
+            Log.d(LOG_TAG, "bitmap observed: $homeScreenState")
+            homeScreenState.photo?.let {photo ->
+                binding.profilePv.bitmap = photo
             }
-        }
 
-        viewModel.tasks.observe(viewLifecycleOwner) {
-            val underlinedText = "$it task${if (it > 1) "s" else ""}"
-            val fullText = "You have $underlinedText for today"
+            homeScreenState.tasksNumber?.let { tasksNum ->
+                val underlinedText = "$tasksNum task${if (tasksNum > 1) "s" else ""}"
+                val fullText = "You have $underlinedText for today"
 
-            binding.profilePv.text = fullText
-            binding.profilePv.setUnderline(9, 8 + underlinedText.length)
-        }
+                binding.profilePv.text = fullText
+                binding.profilePv.setUnderline(9, 8 + underlinedText.length)
+            }
+            homeScreenState.user?.let { user ->
+                Log.d(LOG_TAG, "User observed: $user")
+                binding.helloTv.text = "Welcome back, ${user.name}!"
 
-        viewModel.user.observe(viewLifecycleOwner) { user ->
-            Log.d(LOG_TAG, "User observed: $user")
-            binding.helloTv.text = "Welcome back, ${user.name}!"
-        }
+            }
 
-        viewModel.progression.observe(viewLifecycleOwner) {
-            val progress: Float = it / 100f
-            binding.progressCb.progress = progress
+            homeScreenState.progression?.let { progression ->
+                val progress: Float = progression / 100f
+                binding.progressCb.progress = progress
+            }
         }
     }
 

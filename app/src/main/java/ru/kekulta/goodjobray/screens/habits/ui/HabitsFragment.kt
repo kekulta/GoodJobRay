@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import ru.kekulta.goodjobray.di.DI
 import ru.kekulta.goodjobray.R
 import ru.kekulta.goodjobray.databinding.ActivityMainBinding
+import ru.kekulta.goodjobray.databinding.FragmentHabitsBinding
 import ru.kekulta.goodjobray.screens.habits.presentation.HabitsViewModel
 import ru.kekulta.goodjobray.screens.home.ui.HomeFragment
 
@@ -19,7 +20,7 @@ class HabitsFragment : Fragment() {
 
     private val viewModel: HabitsViewModel by viewModels({ requireActivity() })
 
-    private var _binding: ActivityMainBinding? = null
+    private var _binding: FragmentHabitsBinding? = null
     private val binding get() = _binding!!
 
 
@@ -27,7 +28,7 @@ class HabitsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ActivityMainBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentHabitsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 

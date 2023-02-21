@@ -1,5 +1,6 @@
 package ru.kekulta.goodjobray.di
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.fragment.app.FragmentManager
 import ru.kekulta.goodjobray.activity.data.AppDatabase
@@ -8,6 +9,7 @@ import ru.kekulta.goodjobray.screens.home.presentation.InternalSaver
 import ru.kekulta.goodjobray.screens.main.navigator.MainNavigator
 import ru.kekulta.goodjobray.screens.notes.data.NoteRepository
 import ru.kekulta.goodjobray.screens.planner.data.TaskRepository
+import ru.kekulta.goodjobray.shared.data.manager.UserManager
 
 
 object DI {
@@ -18,9 +20,10 @@ object DI {
     private var userRepository: UserRepository? = null
     private var taskRepository: TaskRepository? = null
     private var noteRepository: NoteRepository? = null
-    private var navigator: MainNavigator? = null
-    // FIXME ??
+
+    @SuppressLint("StaticFieldLeak")
     private var internalSaver: InternalSaver? = null
+    private var userManager: UserManager? = null
 
     fun initDi(applicationContext: Context) {
         DI.applicationContext = applicationContext
@@ -70,11 +73,10 @@ object DI {
         return noteRepository!!
     }
 
-    fun initNavigator(fragmentManager: FragmentManager, container: Int, startScreen: String) {
-        navigator = MainNavigator(fragmentManager, container, startScreen)
-    }
-
-    fun getNavigator(): MainNavigator {
-        return requireNotNull(navigator) { "Navigator should be initialized" }
+    fun getUserManager(): UserManager {
+        if (userManager == null) {
+            userManager = UserManager(getUserRepository())
+        }
+        return userManager!!
     }
 }

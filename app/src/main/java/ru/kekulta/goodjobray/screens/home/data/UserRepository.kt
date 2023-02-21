@@ -3,8 +3,6 @@ package ru.kekulta.goodjobray.screens.home.data
 import ru.kekulta.goodjobray.shared.data.models.User
 import ru.kekulta.goodjobray.shared.data.dao.UserDao
 
-const val ID = 123456
-
 class UserRepository(private val dao: UserDao) {
     fun observeUserById(id: Int) = dao.getUserLiveData(id)
 
@@ -17,5 +15,7 @@ class UserRepository(private val dao: UserDao) {
     fun updateUser(user: User) {
         dao.update(user)
     }
+
+    fun isExistById(id: Int): Boolean = dao.isExist(id)
 }
 

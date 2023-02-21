@@ -18,12 +18,7 @@ class MainNavigator(
     private val container: Int,
     startScreen: String
 ) {
-    // TODO (10) Как ты себе представляешь хранение ФРАГМЕНТОВ в DI-графе?
-    //  У тебя очень много данных лишних будет храниться, GC не сможет очистить память от этого.
-    //  Именно по этой причине навигацию обычно абстрагируют, делают какой-то дополнительный класс/интерфейс Screen,
-    //  который просто предоставляет тебе возможность построить граф навигации
-
-    val currentScreen: String?
+    private val currentScreen: String?
         get() {
             with(fragmentManager) {
                 if (backStackEntryCount == 0) return null

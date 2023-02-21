@@ -19,12 +19,25 @@ interface UserDao {
     )
     fun getUserLiveData(id: Int): LiveData<User>
 
-    @Query(value = """
+    @Query(
+        value = """
         SELECT *
         FROM ${User.USERS} 
         WHERE ${User.ID} = :id
-    """)
+    """
+    )
     fun getUser(id: Int): User?
+
+    @Query(
+        """
+        SELECT EXISTS
+                (SELECT * 
+                FROM ${User.USERS} 
+                WHERE ${User.ID} = :id)
+                """
+    )
+    fun isExist(id: Int): Boolean
+
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insert(user: User)

@@ -8,15 +8,19 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import ru.kekulta.goodjobray.R
 import ru.kekulta.goodjobray.activity.data.Note
 import ru.kekulta.goodjobray.databinding.FragmentNotesBinding
+import ru.kekulta.goodjobray.di.DI
 import ru.kekulta.goodjobray.screens.notes.presentation.NotesAdapter
 import ru.kekulta.goodjobray.screens.notes.presentation.NotesViewModel
 import ru.kekulta.goodjobray.screens.notes.presentation.NoteRecyclerClickListener
+import ru.kekulta.goodjobray.screens.planner.presentation.PlannerViewModel
 
 
 class NotesFragment : Fragment() {
@@ -26,7 +30,13 @@ class NotesFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var notesRecycler: RecyclerView
     private lateinit var pinnedNotesRecycler: RecyclerView
-    private val viewModel: NotesViewModel by viewModels({ requireActivity() })
+    private val viewModel: NotesViewModel by viewModels({ requireActivity() }) { NotesViewModel.Factory }
+    private val notesAdapter = NotesAdapter().apply {
+        listener = OnClickListener()
+    }
+    private val pinnedNotesAdapter = NotesAdapter().apply {
+        listener = OnClickListener()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +48,27 @@ class NotesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeState()
         setupNotesRecycler()
         setupPinnedNotesRecycler()
         bindToolbar()
+    }
+
+    private fun observeState() {
+        viewModel.observeState().observe(viewLifecycleOwner) { state ->
+            state.notes?.let { notes ->
+                notesAdapter.notes = notes
+            }
+
+            state.pinnedNotes?.let { notes ->
+                pinnedNotesAdapter.notes = notes
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun bindToolbar() {
@@ -52,26 +80,15 @@ class NotesFragment : Fragment() {
     private fun setupPinnedNotesRecycler() {
         pinnedNotesRecycler = binding.pinnedNotesRv
         pinnedNotesRecycler.apply {
-            adapter = NotesAdapter().apply {
-                viewModel.pinnedNotes.observe(viewLifecycleOwner) {
-                    notes = it
-                }
-                listener = OnClickListener()
-            }
+            adapter = pinnedNotesAdapter
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         }
-
     }
 
     private fun setupNotesRecycler() {
         notesRecycler = binding.otherNotesRv
         notesRecycler.apply {
-            adapter = NotesAdapter().apply {
-                viewModel.notes.observe(viewLifecycleOwner) {
-                    notes = it
-                }
-                listener = OnClickListener()
-            }
+            adapter = notesAdapter
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
         }
@@ -108,7 +125,6 @@ class NotesFragment : Fragment() {
         builder.show()
     }
 
-
     inner class OnClickListener : NoteRecyclerClickListener {
         override fun onClick(index: Int, note: Note) {
             println("note: $note clicked")
@@ -122,10 +138,19 @@ class NotesFragment : Fragment() {
         }
     }
 
+    companion object {
+        const val LOG_TAG = "PlannerViewModel"
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(
+                modelClass: Class<T>,
+                extras: CreationExtras
+            ): T {
+                return PlannerViewModel(
+                    DI.getTaskRepository()
+                ) as T
+            }
+        }
     }
-
 }

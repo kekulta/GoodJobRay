@@ -38,7 +38,6 @@ class DatesAdapter : RecyclerView.Adapter<DatesAdapter.DateViewHolder>() {
         }
 
         fun onBind() {
-            //println("${days[adapterPosition].dayOfMonth} on bind, adapterPosition: ${adapterPosition}")
             card.apply {
                 bottomText = dates[adapterPosition].dayOfMonth.toString()
                 topText = Date.threeLetterNameDayOfWeek(dates[adapterPosition].dayOfWeek)

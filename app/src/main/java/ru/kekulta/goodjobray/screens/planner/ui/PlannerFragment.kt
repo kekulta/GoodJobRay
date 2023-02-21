@@ -2,6 +2,7 @@ package ru.kekulta.goodjobray.screens.planner.ui
 
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +16,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.kekulta.goodjobray.R
@@ -30,22 +30,24 @@ import ru.kekulta.goodjobray.utils.Date
 import ru.kekulta.simpleviews.widget.CardView
 
 
-const val TIME_ID = 1000000
-
 class PlannerFragment : Fragment() {
+    companion object {
+        const val TIME_ID = 1000000
+        const val LOG_TAG = "PlannerFragment"
+    }
 
     private var _binding: FragmentPlannerBinding? = null
     private val binding get() = _binding!!
-    private lateinit var datesRecycler: RecyclerView
-    private val viewModel: PlannerViewModel by viewModels({ requireActivity() })
+    private val viewModel: PlannerViewModel by viewModels({ requireActivity() }) { PlannerViewModel.Factory }
     private var timeItems = mutableListOf<TextView>()
     private var taskItems = mutableListOf<CardView>()
+    private val datesAdapter = DatesAdapter().apply {
+        listener = DatesListener()
+    }
+    private lateinit var datesRecycler: RecyclerView
 
     private val taskCreationBuffer = MutableLiveData<Pair<Int?, Int?>>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,27 +58,55 @@ class PlannerFragment : Fragment() {
 
     }
 
-    inner class DatesListener : DateRecyclerClickListener {
-        override fun onClick(index: Int, cardView: CardView) {
-            viewModel.dayClicked(index + 1)
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeState()
+
         generateTimeline()
 
-        configureAddingLiveData()
+        configureTaskCreationBuffer()
 
         setupDatesRecycler()
-
-        observeCurrentDate()
 
         bindMonthSwitch()
 
         bindToolbar()
     }
 
+    override fun onPause() {
+        super.onPause()
+        viewModel.tasksScrollState = binding.tasksSv.scrollY
+        viewModel.datesRecyclerState = datesRecycler.layoutManager?.onSaveInstanceState()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun observeState() {
+        viewModel.observeState().observe(viewLifecycleOwner) { state ->
+            state.tasks?.let { tasks ->
+                taskItems.forEach {
+                    binding.timesContainer.removeView(it)
+                }
+                generateTask(tasks)
+            }
+
+            state.currentDate?.let { date ->
+                val year = date.year
+                val monthName = Date.monthFullName(date.month)
+                binding.monthYearTv.text = "$monthName $year"
+
+                datesAdapter.currentDay = date.dayOfMonth
+                nullTasksCreationBuffer()
+            }
+
+            state.days?.let { dates ->
+                datesAdapter.dates = dates
+            }
+        }
+    }
 
     private fun bindToolbar() {
         binding.toolbar.addIcon.setOnClickListener {
@@ -94,37 +124,21 @@ class PlannerFragment : Fragment() {
         }
     }
 
-    private fun observeCurrentDate() {
-        viewModel.tasks.observe(viewLifecycleOwner) { tasks ->
-            taskItems.forEach {
-                binding.timesContainer.removeView(it)
-            }
-            generateTask(tasks)
-        }
-
-        viewModel.currentDate.observe(viewLifecycleOwner) { date ->
-            date.let { date ->
-                val year = date.year
-                val monthName = Date.monthFullName(date.month)
-                binding.monthYearTv.text = "$monthName $year"
-            }
-        }
-    }
-
     private fun setupDatesRecycler() {
         datesRecycler = binding.datesRv
         datesRecycler.apply {
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = DatesAdapter().apply {
-                viewModel.days.observe(viewLifecycleOwner) { dates ->
-                    this.dates = dates
-                }
-                viewModel.currentDate.observe(viewLifecycleOwner) { date ->
-                    this.currentDay = date.dayOfMonth
-                }
-                listener = DatesListener()
+            adapter = datesAdapter
+        }
+        if (viewModel.datesRecyclerState == null) {
+            datesRecycler.post {
+                datesRecycler.smoothScrollToPosition(Date.actualDayOfMonth - 1)
             }
+        }
+        viewModel.datesRecyclerState?.let {
+            datesRecycler.layoutManager?.onRestoreInstanceState(it)
+            viewModel.datesRecyclerState = null
         }
     }
 
@@ -198,21 +212,15 @@ class PlannerFragment : Fragment() {
             timeItems.add(textView)
         }
         binding.tasksSv.post {
-            binding.tasksSv.smoothScrollTo(0, timeItems[Date.actualHour].top)
+            viewModel.tasksScrollState.let {
+                if (it == null) {
+                    binding.tasksSv.smoothScrollTo(0, timeItems[Date.actualHour].top)
+                } else {
+                    binding.tasksSv.scrollY = it
+                }
+            }
+
         }
-    }
-
-
-    inner class TimeItemListener : View.OnClickListener, View.OnLongClickListener {
-        override fun onClick(view: View) {
-            addingLiveDataClicked(view.id - TIME_ID)
-        }
-
-        override fun onLongClick(view: View): Boolean {
-            addTask(view.id - TIME_ID)
-            return true
-        }
-
     }
 
     private fun askForTask() {
@@ -277,48 +285,58 @@ class PlannerFragment : Fragment() {
         builder.show()
     }
 
-    fun addingLiveDataClicked(hour: Int) {
+    fun timeElementClicked(hour: Int) {
         taskCreationBuffer.value.let { value ->
             when {
                 value == null || (value.first == null && value.second == null) -> taskCreationBuffer.value =
                     Pair(hour, null)
 
-                value.first == hour -> nullAddingLiveData()
+                value.first == hour -> nullTasksCreationBuffer()
                 value.first != null -> {
-                    if (hour < (value.first ?: 23)) nullAddingLiveData()
+                    if (hour < (value.first ?: 23)) nullTasksCreationBuffer()
                     else taskCreationBuffer.value = Pair(value.first, hour)
                 }
 
-                else -> nullAddingLiveData()
+                else -> nullTasksCreationBuffer()
             }
         }
     }
 
-    private fun configureAddingLiveData() {
-        viewModel.currentDate.observe(viewLifecycleOwner) {
-            nullAddingLiveData()
-        }
+    private fun configureTaskCreationBuffer() {
 
         taskCreationBuffer.observe(viewLifecycleOwner) {
             val fromHour = it.first
             val toHour = it.second
             if (fromHour != null && toHour != null) {
-                nullAddingLiveData()
+                nullTasksCreationBuffer()
                 println("adding task from $fromHour to $toHour")
                 addTask(fromHour, toHour)
             }
         }
     }
 
-    private fun nullAddingLiveData() {
+    private fun nullTasksCreationBuffer() {
         if (taskCreationBuffer.value != Pair(null, null)) {
             taskCreationBuffer.value = Pair(null, null)
         }
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    inner class DatesListener : DateRecyclerClickListener {
+        override fun onClick(index: Int, cardView: CardView) {
+            viewModel.dayClicked(index + 1)
+        }
+    }
+
+    inner class TimeItemListener : View.OnClickListener, View.OnLongClickListener {
+        override fun onClick(view: View) {
+            timeElementClicked(view.id - TIME_ID)
+        }
+
+        override fun onLongClick(view: View): Boolean {
+            addTask(view.id - TIME_ID)
+            return true
+        }
+
     }
 }

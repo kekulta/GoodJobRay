@@ -3,24 +3,23 @@ package ru.kekulta.goodjobray.screens.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
+import ru.kekulta.goodjobray.App
 import ru.kekulta.goodjobray.di.DI
 import ru.kekulta.goodjobray.screens.home.data.UserRepository
 import ru.kekulta.goodjobray.screens.main.navigator.MainNavigator
 
-class MainViewModel(
-    userRepository: UserRepository
-) : ViewModel() {
+class MainViewModel : ViewModel() {
 
     fun onHomeButtonClick() {
-        DI.getNavigator().navigateTo(MainNavigator.HOME)
+        App.INSTANCE.getNavigator().navigateTo(MainNavigator.HOME)
     }
 
     fun onPlannerButtonClick() {
-        DI.getNavigator().navigateTo(MainNavigator.PLANNER)
+        App.INSTANCE.getNavigator().navigateTo(MainNavigator.PLANNER)
     }
 
     fun onNotesButtonClick() {
-        DI.getNavigator().navigateTo(MainNavigator.NOTES)
+        App.INSTANCE.getNavigator().navigateTo(MainNavigator.NOTES)
 
     }
 
@@ -35,7 +34,7 @@ class MainViewModel(
             ): T {
 
                 return MainViewModel(
-                    DI.getUserRepository()
+
                 ) as T
             }
         }

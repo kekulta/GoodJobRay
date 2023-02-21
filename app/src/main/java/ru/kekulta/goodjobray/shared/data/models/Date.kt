@@ -1,5 +1,7 @@
 package ru.kekulta.goodjobray.utils
 
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.Calendar
 
 data class Date(val dayOfMonth: Int, val month: Int, val year: Int = 2022) {
