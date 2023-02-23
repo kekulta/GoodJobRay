@@ -1,11 +1,9 @@
-package ru.kekulta.goodjobray.shared.data.manager
+package ru.kekulta.goodjobray.shared.data.User
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
-import ru.kekulta.goodjobray.App
-import ru.kekulta.goodjobray.screens.home.data.UserRepository
 import ru.kekulta.goodjobray.shared.data.models.User
 
 class UserManager(private val userRepository: UserRepository) {

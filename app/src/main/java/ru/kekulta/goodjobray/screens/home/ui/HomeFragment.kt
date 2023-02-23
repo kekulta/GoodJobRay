@@ -93,6 +93,7 @@ class HomeFragment : Fragment() {
                 binding.profilePv.text = fullText
                 binding.profilePv.setUnderline(9, 8 + underlinedText.length)
             }
+
             homeScreenState.user?.let { user ->
                 Log.d(LOG_TAG, "User observed: $user")
                 binding.helloTv.text = "Welcome back, ${user.name}!"

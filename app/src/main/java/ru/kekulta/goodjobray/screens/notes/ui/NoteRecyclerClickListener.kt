@@ -1,4 +1,4 @@
-package ru.kekulta.goodjobray.screens.notes.presentation
+package ru.kekulta.goodjobray.screens.notes.ui
 
 import ru.kekulta.goodjobray.activity.data.Note
 

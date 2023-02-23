@@ -1,5 +1,6 @@
-package ru.kekulta.goodjobray.screens.home.data
+package ru.kekulta.goodjobray.shared.data.User
 
+import androidx.lifecycle.distinctUntilChanged
 import ru.kekulta.goodjobray.shared.data.models.User
 import ru.kekulta.goodjobray.shared.data.dao.UserDao
 

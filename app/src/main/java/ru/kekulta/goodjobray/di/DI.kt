@@ -2,14 +2,12 @@ package ru.kekulta.goodjobray.di
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.fragment.app.FragmentManager
 import ru.kekulta.goodjobray.activity.data.AppDatabase
-import ru.kekulta.goodjobray.screens.home.data.UserRepository
+import ru.kekulta.goodjobray.shared.data.User.UserRepository
 import ru.kekulta.goodjobray.screens.home.presentation.InternalSaver
-import ru.kekulta.goodjobray.screens.main.navigator.MainNavigator
 import ru.kekulta.goodjobray.screens.notes.data.NoteRepository
 import ru.kekulta.goodjobray.screens.planner.data.TaskRepository
-import ru.kekulta.goodjobray.shared.data.manager.UserManager
+import ru.kekulta.goodjobray.shared.data.User.UserManager
 
 
 object DI {

@@ -1,4 +1,4 @@
-package ru.kekulta.goodjobray.screens.planner.presentation
+package ru.kekulta.goodjobray.screens.planner.ui
 
 import ru.kekulta.simpleviews.widget.CardView
 

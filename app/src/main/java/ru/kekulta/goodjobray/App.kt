@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.fragment.app.FragmentManager
 import ru.kekulta.goodjobray.di.DI
 import ru.kekulta.goodjobray.screens.main.navigator.MainNavigator
-import ru.kekulta.goodjobray.shared.data.manager.UserManager
+import ru.kekulta.goodjobray.shared.data.User.UserManager
 
 
 internal class App : Application() {

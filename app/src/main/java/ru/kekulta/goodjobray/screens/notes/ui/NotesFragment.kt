@@ -17,9 +17,7 @@ import ru.kekulta.goodjobray.R
 import ru.kekulta.goodjobray.activity.data.Note
 import ru.kekulta.goodjobray.databinding.FragmentNotesBinding
 import ru.kekulta.goodjobray.di.DI
-import ru.kekulta.goodjobray.screens.notes.presentation.NotesAdapter
 import ru.kekulta.goodjobray.screens.notes.presentation.NotesViewModel
-import ru.kekulta.goodjobray.screens.notes.presentation.NoteRecyclerClickListener
 import ru.kekulta.goodjobray.screens.planner.presentation.PlannerViewModel
 
 

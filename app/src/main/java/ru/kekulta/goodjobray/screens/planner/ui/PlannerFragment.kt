@@ -2,7 +2,6 @@ package ru.kekulta.goodjobray.screens.planner.ui
 
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Parcelable
 import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,8 +20,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.kekulta.goodjobray.R
 import ru.kekulta.goodjobray.activity.data.Task
 import ru.kekulta.goodjobray.databinding.FragmentPlannerBinding
-import ru.kekulta.goodjobray.screens.planner.presentation.DateRecyclerClickListener
-import ru.kekulta.goodjobray.screens.planner.presentation.DatesAdapter
 import ru.kekulta.goodjobray.screens.planner.presentation.PlannerViewModel
 import ru.kekulta.goodjobray.shared.data.utils.dp
 import ru.kekulta.goodjobray.utils.Date
@@ -60,17 +57,15 @@ class PlannerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeState()
-
         generateTimeline()
 
         configureTaskCreationBuffer()
 
         setupDatesRecycler()
 
-        bindMonthSwitch()
+        bindListeners()
 
-        bindToolbar()
+        observeState()
     }
 
     override fun onPause() {
@@ -108,16 +103,15 @@ class PlannerFragment : Fragment() {
         }
     }
 
-    private fun bindToolbar() {
+    private fun bindListeners() {
         binding.toolbar.addIcon.setOnClickListener {
             askForTask()
         }
-    }
 
-    private fun bindMonthSwitch() {
         binding.monthYearTv.setOnClickListener {
             viewModel.nextMonthButtonClicked()
         }
+
         binding.monthYearTv.setOnLongClickListener {
             viewModel.previousMonthButtonClicked()
             true
@@ -131,14 +125,16 @@ class PlannerFragment : Fragment() {
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = datesAdapter
         }
-        if (viewModel.datesRecyclerState == null) {
-            datesRecycler.post {
-                datesRecycler.smoothScrollToPosition(Date.actualDayOfMonth - 1)
+
+        viewModel.datesRecyclerState.let { state ->
+            if (state == null) {
+                datesRecycler.post {
+                    datesRecycler.smoothScrollToPosition(Date.actualDayOfMonth - 1)
+                }
+            } else {
+                datesRecycler.layoutManager?.onRestoreInstanceState(state)
+                viewModel.datesRecyclerState = null
             }
-        }
-        viewModel.datesRecyclerState?.let {
-            datesRecycler.layoutManager?.onRestoreInstanceState(it)
-            viewModel.datesRecyclerState = null
         }
     }
 

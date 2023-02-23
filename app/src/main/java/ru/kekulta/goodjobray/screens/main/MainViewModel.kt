@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import ru.kekulta.goodjobray.App
-import ru.kekulta.goodjobray.di.DI
-import ru.kekulta.goodjobray.screens.home.data.UserRepository
 import ru.kekulta.goodjobray.screens.main.navigator.MainNavigator
 
 class MainViewModel : ViewModel() {

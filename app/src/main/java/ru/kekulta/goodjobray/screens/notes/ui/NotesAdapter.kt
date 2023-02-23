@@ -1,5 +1,6 @@
-package ru.kekulta.goodjobray.screens.notes.presentation
+package ru.kekulta.goodjobray.screens.notes.ui
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,10 @@ import ru.kekulta.simpleviews.widget.TextCard
 class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>() {
 
     var notes: List<Note> = listOf()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
+            //TODO: implement DiffUtil
             notifyDataSetChanged()
         }
     var listener: NoteRecyclerClickListener? = null

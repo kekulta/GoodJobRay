@@ -33,17 +33,20 @@ data class Date(val dayOfMonth: Int, val month: Int, val year: Int = 2022) {
             get() = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
 
         fun getDaysFor(month: Int, year: Int): List<Date> {
+            val daysIn = getDaysCountFor(month, year)
+            val daysList = List(daysIn) {
+                Date(it + 1, month, year)
+            }
+            return daysList
+        }
+
+        fun getDaysCountFor(month: Int, year: Int): Int {
             val calendar = Calendar.getInstance()
 
             calendar.set(Calendar.MONTH, month)
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.DAY_OF_MONTH, 1)
-            val daysIn = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-            val daysList = List(daysIn) {
-                calendar.set(Calendar.DAY_OF_MONTH, it + 1)
-                Date(it + 1, month, year)
-            }
-            return daysList
+            return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
         }
 
         fun today(): Date {
