@@ -41,11 +41,11 @@ class HomeViewModel(
 
     init {
         state.addSource(user) { newUser ->
-            if (state.value?.user?.id != newUser.id) {
+            val oldUser = state.value?.user
+            state.value = state.value?.copy(user = newUser) ?: HomeScreenState(user = newUser)
+            if (oldUser?.id != newUser.id) {
                 loadPhotoFromInternalAsync()
             }
-            // Порядок загрузки фото может измениться?
-            state.value = state.value?.copy(user = newUser) ?: HomeScreenState(user = newUser)
         }
 
         state.addSource(photo) { photo ->
